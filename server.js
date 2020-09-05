@@ -4,7 +4,7 @@
  * Module dependencies.
  */
 
-var app = require('../app');
+var app = require('./server/config/app');
 var debug = require('debug')('cinema-management-system:server');
 var http = require('http');
 
