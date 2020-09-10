@@ -6,6 +6,7 @@ let logger = require('morgan');
 
 let indexRouter = require('../routes/index');
 let usersRouter = require('../routes/users');
+require('./seed');
 
 let app = express();
 
