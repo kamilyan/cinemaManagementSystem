@@ -2,7 +2,7 @@ const seeder = require('mongoose-seed');
 const axios = require('axios');
 const db = require('./db');
 const usersDAL = require('../models/dals/usersDAL');
-const users = require('../models/dataSource/users');
+const permissionsDAL = require('../models/dals/permissionsDAL');
 const userModel = require('../models/odm/userDB/users');
 
 // seeds members DB, movies DB (from web service) and user DB (intialize an admin)
@@ -48,14 +48,13 @@ async function getMembersData()
 }
 
 
-//let intializedAdmin = { name: "admin", password: "admin" };
 
 function getAdmin() {
-    return { 'model': 'users', 'documents': [{ name: "admin", password: "admin" }] };
+    return { 'model': 'users', 'documents': [{ username: "admin", password: "admin" }] };
 }
 
 async function intializeAdminFile(){
-    userModel.find({name : "admin"}, async (err, user)  => {
+    userModel.find({username : "admin"}, async (err, user)  => {
         //intialize admin.
         let adminDetails = {
             "id": user[0]._id,
@@ -64,11 +63,30 @@ async function intializeAdminFile(){
             "createdDate": Date.now(),
             "sessionTimout": 86400000
         }
-        let data = await usersDAL.getUsers();
+
+        let adminPermissions = {
+            "id": user[0]._id,
+            "permissions": [
+                "view subscriptions",
+                "create subscriptions",
+                "delete subscriptions",
+                "view movies",
+                "create movies",
+                "delete movies"
+            ]
+        }
+        
+        let dataUsers = await usersDAL.getUsers();
+        let dataPermissions = await permissionsDAL.getUsers();
         //remove first user for changing intialized admin.
-        data.users.shift();
-        //add admin to be first in our users json file.
-        data.users.unshift(adminDetails);
-        await usersDAL.saveUsers(data);
+        dataUsers.users.shift();
+        dataPermissions.users.shift();
+        
+        //add admin to be first in our users and permissions json files.
+        dataUsers.users.unshift(adminDetails);
+        dataPermissions.users.unshift(adminPermissions);
+
+        await usersDAL.saveUsers(dataUsers);
+        await permissionsDAL.saveUsers(dataPermissions);
     });
 }
