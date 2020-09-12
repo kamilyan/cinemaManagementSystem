@@ -1,13 +1,12 @@
 let mongoose = require('mongoose');
 
 // create a model class 
-let memberSchema = mongoose.Schema({
-    memberId: String,
-    movies: [{movieId: ObjectId, date: Date}],
-    city: String
+let subscriptionSchema = mongoose.Schema({
+    memberId: Schema.Types.ObjectId,
+    movies: [{movieId: Schema.Types.ObjectId, date: Date}]
 },
 {
-    collection: 'members'
+    collection: 'subscriptions'
 });
 
-module.exports = mongoose.model('members', memberSchema);
+module.exports = mongoose.model('subscriptions', subscriptionSchema);
