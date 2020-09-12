@@ -6,4 +6,8 @@ router.get('/', function(req, res, next) {
   res.render('layout', { page: "contentMain/main" });
 });
 
+router.get('/manageUsers', function(req, res, next) {
+    res.render('layout', { page: "contentMain/manageUsers" });
+  });
+
 module.exports = router;
