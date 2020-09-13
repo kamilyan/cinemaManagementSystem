@@ -59,7 +59,7 @@ async function intializeAdminFile(){
             "id": user[0]._id,
             "firstName": "admin",
             "lastName": "admin",
-            "createdDate": Date.now(),
+            "createdData": Date.now(),
             "sessionTimeOut": 86400000
         }
 

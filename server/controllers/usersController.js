@@ -3,7 +3,34 @@ let usersDAL= require('../models/dals/usersDAL');
 let permissionDAL =require('../models/dals/permissionsDAL'); 
 
 module.exports.displayUsers = function(req, res, next) {
-    res.render('layout', { page: "users/allUsers"});
+    userModel.find(async (err, usersDB) => {
+        if(err)
+        {
+            return console.error(err);
+        }
+        else
+        {
+            let users = []
+            for (user of usersDB) {
+                users.push({ "id": user.id, "username": user.username});
+            }
+
+            users = await Promise.all(users.map(async(user) => { 
+                let userData = await usersDAL.getUserById(user.id);
+                let userPermission = await permissionDAL.getUserById(user.id);
+             return {
+                    "name": userData.firstName + " " + userData.lastName,
+                    "username": user.username,
+                    "sessionTimeOut": userData.sessionTimeOut,
+                    "createdData": userData.createdData,
+                    "permissions": userPermission.permissions
+                }
+            }));
+            console.log(users)
+            res.render('layout', { page: "users/allUsers", usersDetails : users});    
+        }
+    })
+
   };
     
 module.exports.displayEditUser = function(req, res, next) {
@@ -29,7 +56,7 @@ module.exports.performAddUser = async function(req, res, next) {
         "id": newUserDB._id,
         "firstName": req.body.firstName,
         "lastName": req.body.lastName,
-        "createdDate": Date.now(),
+        "createdData": Date.now(),
         "sessionTimeOut": req.body.sessionTimeOut
     }
 
@@ -69,8 +96,6 @@ module.exports.performAddUser = async function(req, res, next) {
             res.send("OK")
         }
     })
- 
-
   };
 
 module.exports.displayCreateAccount = function(req, res, next) {

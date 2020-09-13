@@ -1,3 +1,14 @@
 <%- include ../contentMain/manageUsers.ejs %>
 
-<h3>Display All Users</h3>
+<% for (let i = 0; i < usersDetails.length; i++) { %>
+    <div class="card">
+        <h4>Name :</h4> <%= usersDetails[i].name %>
+        <h4>Username :</h4> <%= usersDetails[i].username %>
+        <h4>Session time out (Minutes) :</h4> <%= usersDetails[i].sessionTimeOut %>
+        <h4>Created data :</h4> <%= usersDetails[i].createdData %>
+        <h4>Permissions :</h4>
+        <% for (let j = 0; j < usersDetails[i].permissions.length ; j++) { %>
+             <%= usersDetails[i].permissions[j] %>
+        <% } %>
+    </div>
+<% } %>
