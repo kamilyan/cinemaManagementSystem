@@ -7,4 +7,6 @@ router.get('/', indexController.displayHomePage);
 
 router.get('/manageUsers', indexController.displayManageUsersPage);
 
+router.get('/login', indexController.displayLogin);
+
 module.exports = router;

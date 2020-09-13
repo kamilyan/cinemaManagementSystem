@@ -19,7 +19,6 @@ seeder.connect(db.URI,{ useNewUrlParser: true, useUnifiedTopology: true},async f
         let populateAdmin = getAdmin();
         seeder.populateModels([populateMovie, populateMembers, populateAdmin], async function(){
             await intializeAdminFile();
-            seeder.disconnect()
         });
     });
 });
@@ -61,18 +60,18 @@ async function intializeAdminFile(){
             "firstName": "admin",
             "lastName": "admin",
             "createdDate": Date.now(),
-            "sessionTimout": 86400000
+            "sessionTimeOut": 86400000
         }
 
         let adminPermissions = {
             "id": user[0]._id,
             "permissions": [
-                "view subscriptions",
-                "create subscriptions",
-                "delete subscriptions",
-                "view movies",
-                "create movies",
-                "delete movies"
+                "View subscriptions",
+                "Create subscriptions",
+                "Delete subscriptions",
+                "View movies",
+                "Create movies",
+                "Delete movies"
             ]
         }
         

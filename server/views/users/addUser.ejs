@@ -1,3 +1,34 @@
 <%- include ../contentMain/manageUsers.ejs %>
 
 <h3>add User :</h3>
+
+<form method="POST" action="add">
+    <label for="firstName">First Name:</labe>
+    <input type="text" id="firstName" name="firstName"><br>
+    <label for="lastName">Last Name:</labe>
+    <input type="text" id="lastName" name="lastName"><br>
+    <label for="username">Username:</labe>
+    <input type="text" id="username" name="username"><br>
+    <label for="sessionTimeOut">Session Time Out (Mintues):</labe>
+    <input type="text" id="sessionTimeOut" name="sessionTimeOut"><br>
+    
+    <input type="checkbox" name="viewSubscriptions" value="View Subscriptions">
+    <label for="viewSubscriptions"> View Subscriptions</label><br>
+    <input type="checkbox" name="createSubscriptions" value="Create Subscriptions">
+    <label for="createSubscriptions"> Create Subscriptions</label><br>
+    <input type="checkbox" name="deleteSubscriptions" value="Delete Subscriptions">
+    <label for="deleteSubscriptions"> Delete Subscriptions</label><br>
+    <input type="checkbox" name="updateSubscriptions" value="Update Subscriptions">
+    <label for="updateSubscriptions"> Update Subscriptions</label><br>
+    <input type="checkbox" name="viewMovies" value="View Movies">
+    <label for="viewMovies"> View Movies</label><br>
+    <input type="checkbox" name="createMovies" value="Create Movies">
+    <label for="viewMovies"> Create Movie</label><br> 
+    <input type="checkbox" name="deleteMovies" value="Delete Movies">
+    <label for="deleteMovies"> Delete Movies</label><br>
+    <input type="checkbox" name="updateMovies" value="Update Movies">
+    <label for="updateMovies"> Update Movie</label><br><br>
+    
+    <input type="submit" value="Save">
+    <button type="button">Cancel</button>
+</form>
