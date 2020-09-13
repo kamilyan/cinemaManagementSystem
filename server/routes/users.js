@@ -1,41 +1,23 @@
 var express = require('express');
 var router = express.Router();
+let usersController = require('../controllers/usersController');
 
-router.get('/', function(req, res, next) {
-    res.render('layout', { page: "users/allUsers"});
-  });
+router.get('/', usersController.displayUsers);
   
-router.post('/', function(req, res, next) {
-      res.render('layout', { page: "users/allUsers"});
-  });
+router.get('/add', usersController.displayAddUser);
+  
+router.post('/add/:id', usersController.performAddUser);
+  
+router.get('/edit', usersController.displayEditUser);
+  
+router.post('/edit/:id', usersController.performEditUser);
 
-router.get('/add', function(req, res, next) {
-    res.render('layout', { page: "users/addUser"});
-  });
-  
-router.post('/add/:id', function(req, res, next) {
-      res.render('layout', { page: "users/addUser"});
-  });
-  
-router.get('/edit', function(req, res, next) {
-    res.render('layout', { page: "users/editUser"});
-  });
-  
-router.post('/edit/:id', function(req, res, next) {
-      res.render('layout', { page: "users/editUser"});
-  });
+router.post('/delete/:id', usersController.performDeleteUser);
 
-router.get('/login', function(req, res, next) {
-    res.render('layout', { page: "users/login"});
-  });
+router.get('/login', usersController.displayLogin);
 
-router.get('/createAccount', function(req, res, next) {
-    res.render('layout', { page: "users/createAccount"});
-  });
+router.get('/createAccount', usersController.displayCreateAccount);
   
-router.post('/createAccount', function(req, res, next) {
-      res.render('layout', { page: "users/createAccount"});
-  });
-  
+router.post('/createAccount', usersController.performCreateAccount);
 
 module.exports = router;

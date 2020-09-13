@@ -1,13 +1,10 @@
 var express = require('express');
 var router = express.Router();
+let indexController = require('../controllers/indexController');
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('layout', { page: "contentMain/main" });
-});
+router.get('/', indexController.displayHomePage);
 
-router.get('/manageUsers', function(req, res, next) {
-    res.render('layout', { page: "contentMain/manageUsers" });
-  });
+router.get('/manageUsers', indexController.displayManageUsersPage);
 
 module.exports = router;
