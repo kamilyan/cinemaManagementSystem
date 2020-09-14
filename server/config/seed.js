@@ -13,7 +13,7 @@ seeder.connect(db.URI,{ useNewUrlParser: true, useUnifiedTopology: true},async f
         __dirname +"/../models/odm/subscriptionsDB/members",
         __dirname +"/../models/odm/userDB/users"
     ]);
-    seeder.clearModels(['movies','members', 'users'],async function() {
+    seeder.clearModels(['movies','members', 'User'],async function() {
         let populateMovie = await getMoviesData();
         let populateMembers = await getMembersData();
         let populateAdmin = getAdmin();
@@ -49,7 +49,7 @@ async function getMembersData()
 
 
 function getAdmin() {
-    return { 'model': 'users', 'documents': [{ username: "admin", password: "admin" }] };
+    return { 'model': 'User', 'documents': [{ username: "admin", password: "admin" }] };
 }
 
 async function intializeAdminFile(){

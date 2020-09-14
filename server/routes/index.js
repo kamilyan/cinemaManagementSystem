@@ -9,6 +9,8 @@ router.get('/manageUsers', indexController.displayManageUsersPage);
 
 router.get('/login', indexController.displayLogin);
 
+router.post('/login', indexController.processLoginPage);
+
 router.get('/createAccount', indexController.displayCreateAccount);
   
 router.post('/createAccount', indexController.performCreateAccount);

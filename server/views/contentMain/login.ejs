@@ -1,11 +1,15 @@
 
 <h3>Login Page</h3>
 
-<form>
+<% if(messages.length > 0)  { %>
+    <%= messages %>
+<% } %>
+
+<form action="/login" method="POST" autocomplete="off">
     <label for="username">Username :</label>
-    <input id="username" type="text"><br>
+    <input id="username" type="text" name="username" autofocus autocomplete="off" required><br>
     <label for="password">Password :</label>
-    <input id="password" type="password"><br>
-    <input type="submit" value="Login"><br>
+    <input id="password" type="password" name="password"><br>
+    <input type="submit" value="Login" autocomplete="off" required><br>
     New User ? : <a href="/createAccount">Create Account</a>
 </form>
