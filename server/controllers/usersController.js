@@ -26,7 +26,7 @@ module.exports.displayUsers = function(req, res, next) {
                     "permissions": userPermission.permissions
                 }
             }));
-            console.log(users)
+            
             res.render('layout', { page: "users/allUsers", usersDetails : users});    
         }
     })
@@ -97,12 +97,3 @@ module.exports.performAddUser = async function(req, res, next) {
         }
     })
   };
-
-module.exports.displayCreateAccount = function(req, res, next) {
-    res.render('layout', { page: "users/createAccount"});
-  };
-  
-module.exports.performCreateAccount = function(req, res, next) {
-      res.render('layout', { page: "users/createAccount"});
-  };
-  

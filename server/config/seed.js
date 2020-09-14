@@ -75,17 +75,8 @@ async function intializeAdminFile(){
             ]
         }
         
-        let dataUsers = await usersDAL.getUsers();
-        let dataPermissions = await permissionsDAL.getUsers();
-        //remove first user for changing intialized admin.
-        dataUsers.users.shift();
-        dataPermissions.users.shift();
-        
-        //add admin to be first in our users and permissions json files.
-        dataUsers.users.unshift(adminDetails);
-        dataPermissions.users.unshift(adminPermissions);
-
-        await usersDAL.saveUsers(dataUsers);
-        await permissionsDAL.saveUsers(dataPermissions);
+        //intialize json files with admin info, everytime the system starts.
+        await usersDAL.saveUsers({"users": [adminDetails]});
+        await permissionsDAL.saveUsers({"users": [adminPermissions]});
     });
 }

@@ -9,4 +9,8 @@ router.get('/manageUsers', indexController.displayManageUsersPage);
 
 router.get('/login', indexController.displayLogin);
 
+router.get('/createAccount', indexController.displayCreateAccount);
+  
+router.post('/createAccount', indexController.performCreateAccount);
+
 module.exports = router;

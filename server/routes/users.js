@@ -14,8 +14,6 @@ router.post('/edit/:id', usersController.performEditUser);
 
 router.post('/delete/:id', usersController.performDeleteUser);
 
-router.get('/createAccount', usersController.displayCreateAccount);
-  
-router.post('/createAccount', usersController.performCreateAccount);
+
 
 module.exports = router;
