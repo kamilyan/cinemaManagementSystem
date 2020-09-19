@@ -10,5 +10,6 @@
         <% for (let j = 0; j < usersDetails[i].permissions.length ; j++) { %>
              <%= usersDetails[i].permissions[j] %>
         <% } %>
+        <a href="/users/edit/<%= usersDetails[i].id %>">edit</a>
     </div>
 <% } %>

@@ -8,7 +8,7 @@ router.get('/add', usersController.displayAddUser);
   
 router.post('/add', usersController.performAddUser);
   
-router.get('/edit', usersController.displayEditUser);
+router.get('/edit/:id', usersController.displayEditUser);
   
 router.post('/edit/:id', usersController.performEditUser);
 

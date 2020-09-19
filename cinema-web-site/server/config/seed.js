@@ -37,12 +37,14 @@ async function intializeAdminFile(){
         let adminPermissions = {
             "id": user[0]._id,
             "permissions": [
-                "View subscriptions",
-                "Create subscriptions",
-                "Delete subscriptions",
-                "View movies",
-                "Create movies",
-                "Delete movies"
+                "viewSubscriptions",
+                "createSubscriptions",
+                "deleteSubscriptions",
+                "updateSubscriptions",
+                "viewMovies",
+                "createMovies",
+                "deleteMovies",
+                "updateMovies"
             ]
         }
         

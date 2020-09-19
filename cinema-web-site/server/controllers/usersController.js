@@ -19,6 +19,7 @@ module.exports.displayUsers = function(req, res, next) {
                 let userData = await usersDAL.getUserById(user.id);
                 let userPermission = await permissionDAL.getUserById(user.id);
              return {
+                    "id": user.id,
                     "name": userData.firstName + " " + userData.lastName,
                     "username": user.username,
                     "sessionTimeOut": userData.sessionTimeOut,
@@ -31,23 +32,35 @@ module.exports.displayUsers = function(req, res, next) {
         }
     })
 
-  };
+  }
     
-module.exports.displayEditUser = function(req, res, next) {
-    res.render('layout', { page: "users/editUser"});
-  };
+module.exports.displayEditUser = async function(req, res, next) {
+    let userData = await usersDAL.getUserById(req.params.id);
+    let userPermission = await permissionDAL.getUserById(req.params.id);
+    user_Details = {
+        "id": user.id,
+        "firstName": userData.firstName,
+        "lastName": userData.lastName,
+        "username": user.username,
+        "sessionTimeOut": userData.sessionTimeOut,
+        "createdData": userData.createdData,
+        "permissions": userPermission.permissions
+    }
+    console.log(userPermission.permissions)
+    res.render('layout', { page: "users/editUser", userDetails : user_Details});  
+  }
   
 module.exports.performEditUser = function(req, res, next) {
-      res.render('layout', { page: "users/editUser"});
-  };
+   
+  }
 
 module.exports.performDeleteUser = function(req, res, next) {
       res.render('layout', { page: "users/editUser"});
-  };
+  }
 
 module.exports.displayAddUser = function(req, res, next) {
     res.render('layout', { page: "users/addUser"});
-  };
+  }
 
 module.exports.performAddUser = async function(req, res, next) {
     let newUserDB = userModel({"username": req.body.username });
@@ -96,4 +109,4 @@ module.exports.performAddUser = async function(req, res, next) {
             res.send("OK")
         }
     })
-  };
+  }
