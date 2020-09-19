@@ -26,8 +26,7 @@ module.exports.displayLogin = function(req, res, next) {
 
  module.exports.processLoginPage = (req,res,next) => 
  {
-   console.log(req);
-   passport.authenticate('local', (err, user, info) =>{
+      passport.authenticate('local', (err, user, info) =>{
       // server error
       if(err)
       {

@@ -1,6 +1,7 @@
 let userModel = require('../models/odm/userDB/users');
 let usersDAL= require('../models/dals/usersDAL');
-let permissionDAL =require('../models/dals/permissionsDAL'); 
+let permissionDAL =require('../models/dals/permissionsDAL');
+
 
 module.exports.displayUsers = function(req, res, next) {
     userModel.find(async (err, usersDB) => {
@@ -35,10 +36,11 @@ module.exports.displayUsers = function(req, res, next) {
   }
     
 module.exports.displayEditUser = async function(req, res, next) {
+    let user = await userModel.findById(req.params.id);
     let userData = await usersDAL.getUserById(req.params.id);
     let userPermission = await permissionDAL.getUserById(req.params.id);
     user_Details = {
-        "id": user.id,
+        "id": user._id,
         "firstName": userData.firstName,
         "lastName": userData.lastName,
         "username": user.username,
@@ -50,8 +52,64 @@ module.exports.displayEditUser = async function(req, res, next) {
     res.render('layout', { page: "users/editUser", userDetails : user_Details});  
   }
   
-module.exports.performEditUser = function(req, res, next) {
-   
+module.exports.performEditUser = async function(req, res, next) {
+
+    let editedUserDB = await userModel.findById(req.params.id);
+
+    let editedUserData = {
+        "id": req.params.id,
+        "firstName": req.body.firstName,
+        "lastName": req.body.lastName,
+        "createdData": req.body.createdData,
+        "sessionTimeOut": req.body.sessionTimeOut
+    }
+
+    let editedUserPermission = [
+        req.body.viewSubscriptions,
+        req.body.createSubscriptions,
+        req.body.deleteSubscriptions,
+        req.body.updateSubscriptions,
+        req.body.viewMovies,
+        req.body.createMovies,
+        req.body.deleteMovies,
+        req.body.updateMovies
+    ].filter(item => item); // remove empty strings
+
+    let updatedUserPermission = {
+        "id": req.params.id,
+        "permissions": editedUserPermission
+    }
+
+    editedUserDB.save(async (err) => 
+    {
+        if(err)
+        {
+            console.log(err);
+            res.end(err);
+        }
+        else
+        {
+
+            let usersObj = await usersDAL.getUsers();
+            usersObj.users = usersObj.users.map(user => {
+                    if(user.id == req.params.id)
+                        return editedUserData;
+                    else
+                        return user;
+            });
+            await usersDAL.saveUsers(usersObj);
+            let permissionsObj = await permissionDAL.getUsers();
+            permissionsObj.users = permissionsObj.users.map(permission => {
+                if(permission.id == req.params.id)
+                    return updatedUserPermission;
+                else
+                    return permission;
+            });
+            await permissionDAL.saveUsers(permissionsObj);
+            
+            res.send("OK")
+        }
+    })
   }
 
 module.exports.performDeleteUser = function(req, res, next) {
