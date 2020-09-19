@@ -1,34 +1,39 @@
 <%- include ../contentMain/manageUsers.ejs %>
+<div class="row">
+    <div class="offset-md-3 col-md-6 col-sm-12">
+        <h3>add User :</h3>
 
-<h3>add User :</h3>
-
-<form method="POST" action="add">
-    <label for="firstName">First Name:</labe>
-    <input type="text" id="firstName" name="firstName"><br>
-    <label for="lastName">Last Name:</labe>
-    <input type="text" id="lastName" name="lastName"><br>
-    <label for="username">Username:</labe>
-    <input type="text" id="username" name="username"><br>
-    <label for="sessionTimeOut">Session Time Out (Mintues):</labe>
-    <input type="text" id="sessionTimeOut" name="sessionTimeOut"><br>
-    
-    <input type="checkbox" name="viewSubscriptions" value="viewSubscriptions">
-    <label for="viewSubscriptions"> View Subscriptions</label><br>
-    <input type="checkbox" name="createSubscriptions" value="createSubscriptions">
-    <label for="createSubscriptions"> Create Subscriptions</label><br>
-    <input type="checkbox" name="deleteSubscriptions" value="deleteSubscriptions">
-    <label for="deleteSubscriptions"> Delete Subscriptions</label><br>
-    <input type="checkbox" name="updateSubscriptions" value="updateSubscriptions">
-    <label for="updateSubscriptions"> Update Subscriptions</label><br>
-    <input type="checkbox" name="viewMovies" value="viewMovies">
-    <label for="viewMovies"> View Movies</label><br>
-    <input type="checkbox" name="createMovies" value="createMovies">
-    <label for="viewMovies"> Create Movie</label><br> 
-    <input type="checkbox" name="deleteMovies" value="deleteMovies">
-    <label for="deleteMovies"> Delete Movies</label><br>
-    <input type="checkbox" name="updateMovies" value="updateMovies">
-    <label for="updateMovies"> Update Movie</label><br><br>
-    
-    <input type="submit" value="Save">
-    <button type="button">Cancel</button>
-</form>
+        <form method="POST" action="add">
+            <div class="form-group">
+                <label for="firstName">First Name:</labe>
+                <input type="text" class="form-control" id="firstName" name="firstName">
+                <label for="lastName">Last Name:</labe>
+                <input type="text" class="form-control" id="lastName" name="lastName">
+                <label for="username">Username:</labe>
+                <input type="text" class="form-control" id="username" name="username">
+                <label for="sessionTimeOut">Session Time Out (Mintues):</labe>
+                <input type="text" class="form-control" id="sessionTimeOut" name="sessionTimeOut">
+                
+                <input type="checkbox" name="viewSubscriptions" value="viewSubscriptions">
+                <label for="viewSubscriptions"> View Subscriptions</label><br>
+                <input type="checkbox" name="createSubscriptions" value="createSubscriptions">
+                <label for="createSubscriptions"> Create Subscriptions</label><br>
+                <input type="checkbox" name="deleteSubscriptions" value="deleteSubscriptions">
+                <label for="deleteSubscriptions"> Delete Subscriptions</label><br>
+                <input type="checkbox" name="updateSubscriptions" value="updateSubscriptions">
+                <label for="updateSubscriptions"> Update Subscriptions</label><br>
+                <input type="checkbox" name="viewMovies" value="viewMovies">
+                <label for="viewMovies"> View Movies</label><br>
+                <input type="checkbox" name="createMovies" value="createMovies">
+                <label for="viewMovies"> Create Movie</label><br> 
+                <input type="checkbox" name="deleteMovies" value="deleteMovies">
+                <label for="deleteMovies"> Delete Movies</label><br>
+                <input type="checkbox" name="updateMovies" value="updateMovies">
+                <label for="updateMovies"> Update Movie</label><br><br>
+                
+                <input type="submit" value="Save">
+                <button type="button">Cancel</button>
+            </form>
+        </div>
+    </div>
+</div>

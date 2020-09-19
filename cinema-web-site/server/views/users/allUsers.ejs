@@ -1,15 +1,24 @@
 <%- include ../contentMain/manageUsers.ejs %>
-
-<% for (let i = 0; i < usersDetails.length; i++) { %>
-    <div class="card">
-        <h4>Name :</h4> <%= usersDetails[i].name %>
-        <h4>Username :</h4> <%= usersDetails[i].username %>
-        <h4>Session time out (Minutes) :</h4> <%= usersDetails[i].sessionTimeOut %>
-        <h4>Created data :</h4> <%= usersDetails[i].createdData %>
-        <h4>Permissions :</h4>
-        <% for (let j = 0; j < usersDetails[i].permissions.length ; j++) { %>
-             <%= usersDetails[i].permissions[j] %>
-        <% } %>
-        <a href="/users/edit/<%= usersDetails[i].id %>">edit</a>
+<div class="row">
+    <div class="offset-md-3 col-md-6 col-sm-12">
+        <div class="card">
+        <% for (let i = 0; i < usersDetails.length; i++) { %>
+            <div class="card-body">
+                <h4>Name : <small><%= usersDetails[i].name %> </small></h4>
+                <h4>Username : <small><%= usersDetails[i].username %></small></h4> 
+                <h4>Session time out (Minutes) : <small><%= usersDetails[i].sessionTimeOut %></small></h4>
+                <h4>Created data : <small><%= usersDetails[i].createdData %></small></h4> 
+                <h4>Permissions :<small>
+                    <ul>
+                <% for (let j = 0; j < usersDetails[i].permissions.length ; j++) { %>
+                    <li><%= usersDetails[i].permissions[j] %></li>
+                <% } %>
+                    </ul>
+                <small>
+                </h4>
+                <a class="btn btn-primary" href="/users/edit/<%= usersDetails[i].id %>">edit</a>
+            </div>
+            <% } %>
+        </div>
     </div>
-<% } %>
+</div>

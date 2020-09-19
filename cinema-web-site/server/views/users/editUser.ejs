@@ -1,67 +1,72 @@
 <%- include ../contentMain/manageUsers.ejs %>
+<div class="row">
+    <div class="offset-md-3 col-md-6 col-sm-12">
+        <h3>Edit User :</h3>
 
-<h3>Edit User :</h3>
-
-<form method="POST" action="/users/edit/<%= userDetails.id %>">
-    <label for="firstName">First Name:</labe>
-    <input type="text" id="firstName" value=" <%= userDetails.firstName %> " name="firstName"><br>
-    <label for="lastName">Last Name:</labe>
-    <input type="text" id="lastName" value=" <%= userDetails.lastName %> " name="lastName"><br>
-    <label for="username">Username:</labe>
-    <input type="text" id="username" value=" <%= userDetails.username %> " name="username"><br>
-    <label for="sessionTimeOut">Session Time Out (Mintues):</labe>
-    <input type="text" id="sessionTimeOut" value=" <%= userDetails.sessionTimeOut %> " name="sessionTimeOut"><br>
-   
-    <input type="checkbox" name="viewSubscriptions" id="viewSubscriptions" value="viewSubscriptions"
-    <% if (userDetails.permissions.includes("viewSubscriptions")) { %>
-        checked
-    <% } %>
-    >
-    <label for="viewSubscriptions"> View Subscriptions</label><br>
-    <input type="checkbox" name="createSubscriptions" id="createSubscriptions" value="createSubscriptions"
-    <% if (userDetails.permissions.includes("createSubscriptions")) { %>
-        checked
-        <% } %>
-    >
-    <label for="createSubscriptions"> Create Subscriptions</label><br>
-    <input type="checkbox" name="deleteSubscriptions" id="deleteSubscriptions" value="deleteSubscriptions"
-    <% if (userDetails.permissions.includes("deleteSubscriptions")) { %>
-        checked
-        <% } %>
-    >
-    <label for="deleteSubscriptions"> Delete Subscriptions</label><br>
-    <input type="checkbox" name="updateSubscriptions" id="updateSubscriptions" value="updateSubscriptions"
-    <% if (userDetails.permissions.includes("updateSubscriptions")) { %>
-        checked
-        <% } %>
-    >
-    <label for="updateSubscriptions"> Update Subscriptions</label><br>
-    <input type="checkbox" name="viewMovies" id="viewMovies" value="viewMovies"
-    <% if (userDetails.permissions.includes("viewMovies")) { %>
-        checked
-        <% } %>
-    >
-    <label for="viewMovies"> View Movies</label><br>
-    <input type="checkbox" name="createMovies" id="createMovies" value="createMovies"
-    <% if (userDetails.permissions.includes("createMovies")) { %>
-        checked
-        <% } %>
-    >
-    <label for="viewMovies"> Create Movie</label><br> 
-    <input type="checkbox" name="deleteMovies" id="deleteMovies" value="deleteMovies"
-    <% if (userDetails.permissions.includes("deleteMovies")) { %>
-        checked
-        <% } %>
-    >
-    <label for="deleteMovies"> Delete Movies</label><br>
-    <input type="checkbox" name="updateMovies" id="updateMovies" value="updateMovies"
-    <% if (userDetails.permissions.includes("updateMovies")) { %>
-        checked
-        <% } %>
-    >
-    <label for="updateMovies"> Update Movie</label><br><br>
-    
-    <input type="submit" value="Update">
-    <a href=/users>Cancel</a>
-
-</form>
+        <form method="POST" action="/users/edit/<%= userDetails.id %>">
+            <div class="form-group">
+                <label for="firstName">First Name:</labe>
+                <input type="text" class="form-control" id="firstName" value=" <%= userDetails.firstName %> " name="firstName">
+                <label for="lastName">Last Name:</labe>
+                <input type="text" class="form-control" id="lastName" value=" <%= userDetails.lastName %> " name="lastName">
+                <label for="username">Username:</labe>
+                <input type="text" class="form-control" id="username" value=" <%= userDetails.username %> " name="username">
+                <label for="sessionTimeOut">Session Time Out (Mintues):</labe>
+                <input type="text" class="form-control" id="sessionTimeOut" value=" <%= userDetails.sessionTimeOut %> " name="sessionTimeOut">
+                
+                <input type="checkbox" name="viewSubscriptions" id="viewSubscriptions" value="viewSubscriptions"
+                <% if (userDetails.permissions.includes("viewSubscriptions")) { %>
+                    checked
+                <% } %>
+                >
+                <label for="viewSubscriptions"> View Subscriptions</label><br>
+                <input type="checkbox" name="createSubscriptions" id="createSubscriptions" value="createSubscriptions"
+                <% if (userDetails.permissions.includes("createSubscriptions")) { %>
+                    checked
+                    <% } %>
+                >
+                <label for="createSubscriptions"> Create Subscriptions</label><br>
+                <input type="checkbox" name="deleteSubscriptions" id="deleteSubscriptions" value="deleteSubscriptions"
+                <% if (userDetails.permissions.includes("deleteSubscriptions")) { %>
+                    checked
+                    <% } %>
+                >
+                <label for="deleteSubscriptions"> Delete Subscriptions</label><br>
+                <input type="checkbox" name="updateSubscriptions" id="updateSubscriptions" value="updateSubscriptions"
+                <% if (userDetails.permissions.includes("updateSubscriptions")) { %>
+                    checked
+                    <% } %>
+                >
+                <label for="updateSubscriptions"> Update Subscriptions</label><br>
+                <input type="checkbox" name="viewMovies" id="viewMovies" value="viewMovies"
+                <% if (userDetails.permissions.includes("viewMovies")) { %>
+                    checked
+                    <% } %>
+                >
+                <label for="viewMovies"> View Movies</label><br>
+                <input type="checkbox" name="createMovies" id="createMovies" value="createMovies"
+                <% if (userDetails.permissions.includes("createMovies")) { %>
+                    checked
+                    <% } %>
+                >
+                <label for="viewMovies"> Create Movie</label><br> 
+                <input type="checkbox" name="deleteMovies" id="deleteMovies" value="deleteMovies"
+                <% if (userDetails.permissions.includes("deleteMovies")) { %>
+                    checked
+                    <% } %>
+                >
+                <label for="deleteMovies"> Delete Movies</label><br>
+                <input type="checkbox" name="updateMovies" id="updateMovies" value="updateMovies"
+                <% if (userDetails.permissions.includes("updateMovies")) { %>
+                    checked
+                    <% } %>
+                >
+                <label for="updateMovies"> Update Movie</label><br>
+            
+                <button type="submit" class="btn btn-primary">Update</button>
+                <a class="btn btn-primary" href=/users>Cancel</a>
+            
+            </form>
+        </div>
+    </div>
+</div>
