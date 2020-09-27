@@ -21,7 +21,9 @@ function getAllUsers()
    
 }
 
-module.exports.saveUsers = function(users)
+module.exports.saveUsers = saveAllUsers;
+
+function saveAllUsers(users)
 {
     return new Promise(resolve =>
         {
@@ -57,6 +59,16 @@ module.exports.getUserById = function(id)
                 }
             });
         });
-   
 }
+
+
+module.exports.deleteUserById = async function(id)
+{
+    let usersPermissionsObj = await getAllUsers();
+    let index = usersPermissionsObj.users.findIndex(user => user.id == id);
+    usersPermissionsObj.users.splice(index, 1);
+    await saveAllUsers(usersPermissionsObj);
+}
+
+
 

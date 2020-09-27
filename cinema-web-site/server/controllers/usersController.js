@@ -107,14 +107,24 @@ module.exports.performEditUser = async function(req, res, next) {
             });
             await permissionDAL.saveUsers(permissionsObj);
             
-            res.send("OK")
+            res.redirect('/users');
         }
     })
   }
 
 module.exports.performDeleteUser = function(req, res, next) {
-      res.render('layout', { page: "users/editUser"});
-  }
+    userModel.findOneAndRemove({ _id: req.params.id }, async function(err){
+            if(err)
+            {
+                console.log(err);
+                return res.end();
+            }
+            await usersDAL.deleteUserById(req.params.id);
+            await permissionDAL.deleteUserById(req.params.id);
+            
+            return res.redirect('/users');
+    });
+}
 
 module.exports.displayAddUser = function(req, res, next) {
     res.render('layout', { page: "users/addUser"});
@@ -164,7 +174,7 @@ module.exports.performAddUser = async function(req, res, next) {
             permissionsObj.users.push(newUserPermission);
             await permissionDAL.saveUsers(permissionsObj);
             
-            res.send("OK")
+            return res.redirect('/users');
         }
     })
   }

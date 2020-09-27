@@ -21,6 +21,7 @@ let app = express();
 
 // database setup
 let mongoose = require('mongoose');
+mongoose.set('useFindAndModify', false);
 let DB = require('./db');
 
 mongoose.connect(DB.URI, { useNewUrlParser: true, useUnifiedTopology: true});

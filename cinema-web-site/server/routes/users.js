@@ -12,7 +12,7 @@ router.get('/edit/:id', usersController.displayEditUser);
   
 router.post('/edit/:id', usersController.performEditUser);
 
-router.post('/delete/:id', usersController.performDeleteUser);
+router.get('/delete/:id', usersController.performDeleteUser);
 
 
 
