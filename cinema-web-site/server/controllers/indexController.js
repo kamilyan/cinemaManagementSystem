@@ -10,6 +10,10 @@ module.exports.displayManageUsersPage = function(req, res, next) {
       res.redirect("/users");
   };
 
+module.exports.displayMoviesPage = function(req, res, next) {
+      res.redirect("/movies/allMovies");
+  };
+
 module.exports.displayLogin = function(req, res, next) {
       // check if user already logged in
       if(!req.user)
@@ -95,18 +99,3 @@ module.exports.performCreateAccount = (req,res,next) => {
       });
   });
 })}
-/*
-    {password : req.body.password},{useFindAndModify: false}, (err, user) => {
-    if (err) 
-    {
-      console.log(err);
-      res.end();
-    }
-    else
-    {
-      res.render('layout', { page: "contentMain/main"});
-    }
-  });
-    
-}
-*/

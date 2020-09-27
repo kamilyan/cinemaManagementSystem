@@ -1,5 +1,4 @@
 const seeder = require('mongoose-seed');
-const axios = require('axios');
 const db = require('./db');
 const usersDAL = require('../models/dals/usersDAL');
 const permissionsDAL = require('../models/dals/permissionsDAL');

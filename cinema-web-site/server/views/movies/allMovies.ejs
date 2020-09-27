@@ -1,0 +1,19 @@
+<%- include ../contentMain/manageUsers.ejs %>
+<div class="row">
+    <div class="offset-md-3 col-md-6 col-sm-12">
+        <% for (let i = 0; i < movies.length; i++) { %>
+            <div class="card" style="width: 18rem;">
+                <img class="card-img-top img-thumbnail" src="<%= movies[i].image %>" alt="Responsive image">
+                    <h4 class="card-title"><%= movies[i].name %> , <%= new Date(movies[i].premiered).getFullYear(); %></h4>
+                    <p class="card-text">
+                        genres: <% for (let j = 0; j < movies[i].genres.length ; j ++ ) { %>
+                                <%= movies[i].genres[j] %>
+                    <% } %>
+                    </p>
+
+                    <a class="btn btn-primary" href="/users/edit/<%= movies[i]._id %>">Edit</a>
+                    <a class="btn btn-danger" href="/users/delete/<%= movies[i]._id %>">Delete</a>
+            </div>
+         <% } %>
+    </div>
+</div>

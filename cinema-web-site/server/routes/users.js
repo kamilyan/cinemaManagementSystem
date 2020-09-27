@@ -15,5 +15,4 @@ router.post('/edit/:id', usersController.performEditUser);
 router.get('/delete/:id', usersController.performDeleteUser);
 
 
-
 module.exports = router;
