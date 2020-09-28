@@ -1,11 +1,13 @@
 const axios = require('axios');
 
-module.exports.displayMovies = async function(req,res,next)
+module.exports.displayMembers = async function(req,res,next)
 {
-    let movies = await axios.get('http://localhost:4000/api/movies');
-    res.render('layout', { page: "movies/allMovies", movies: movies.data });
-}
+    let subscriber_moviesWatched = await axios.get('http://localhost:4000/api/subscribers');
 
+    let subscriber_personalInfo = await axios.get('http://localhost:4000/api/members/' + "5f721ee6fb128118501cfe43");
+    res.render('layout', { page: "subscriptions/allMembers", subscribers: subscriber_personalInfo.data });
+}
+/*
 module.exports.displayAddMovie = function(req,res,next)
 {
     res.render('layout', { page: "movies/addPage" });
@@ -43,3 +45,5 @@ module.exports.performEditMovie = function(req,res,next)
     })
     .then(() => res.redirect('/movies/allMovies'));
 }
+
+*/

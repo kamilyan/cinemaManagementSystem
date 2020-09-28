@@ -1,0 +1,12 @@
+<%- include ./main.ejs %>
+
+<% for (let i = 0; i < subscribers.length; i++) { %>
+<div class="row">
+    <div class="offset-md-3 col-md-6 col-sm-12">
+            Email : <%= subscribers[i].email %>
+            City :  <%= subscriber[i].city %>
+            <a class="btn btn-primary" href="/subscribers/edit/<%= subscribers[i]._id %>">Edit</a>
+            <a class="btn btn-danger" href="/subscribers/delete/<%= subscribers[i]._id %>">Delete</a>
+    </div>
+</div>
+<% } %>

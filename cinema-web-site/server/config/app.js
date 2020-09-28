@@ -14,6 +14,7 @@ let flash = require('connect-flash');
 let indexRouter = require('../routes/index');
 let usersRouter = require('../routes/users');
 let moviesRouter = require('../routes/movies');
+let subscriptionsRouter = require('../routes/subscriptions');
 
 require('./seed');
 
@@ -74,7 +75,7 @@ passport.deserializeUser(User.deserializeUser());
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/movies', moviesRouter);
-
+app.use('/subscriptions', subscriptionsRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -2,8 +2,8 @@ let mongoose = require('mongoose');
 
 // create a model class 
 let subscriptionSchema = mongoose.Schema({
-    memberId: Schema.Types.ObjectId,
-    movies: [{movieId: Schema.Types.ObjectId, date: Date}]
+    memberId: mongoose.ObjectId,
+    movies:  [ new  mongoose.Schema({ movieId : mongoose.ObjectId, date : Date }, {_id: false})]
 },
 {
     collection: 'subscriptions'
