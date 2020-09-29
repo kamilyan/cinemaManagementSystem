@@ -2,10 +2,22 @@ const axios = require('axios');
 
 module.exports.displayMembers = async function(req,res,next)
 {
-    let subscriber_moviesWatched = await axios.get('http://localhost:4000/api/subscribers');
+    let subscriptions = await axios.get('http://localhost:4000/api/subscribers');
+    let subscribers = []
 
-    let subscriber_personalInfo = await axios.get('http://localhost:4000/api/members/' + "5f721ee6fb128118501cfe43");
-    res.render('layout', { page: "subscriptions/allMembers", subscribers: subscriber_personalInfo.data });
+    for (subscription of subscriptions.data){
+
+        let subscriber = await axios.get('http://localhost:4000/api/members/' + subscription.memberId);
+
+        subscriber.data.movies = [];
+
+        for(movieWatched of subscription.movies) {
+            let movie = await axios.get('http://localhost:4000/api/movies/' + movieWatched.movieId );
+            subscriber.data.movies.push({ movieName : movie.data.name, date : movieWatched.date});
+        }
+        subscribers.push(subscriber.data);
+     }
+    res.render('layout', { page: "subscriptions/allMembers", members: subscribers });
 }
 /*
 module.exports.displayAddMovie = function(req,res,next)
