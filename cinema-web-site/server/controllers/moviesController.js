@@ -3,8 +3,40 @@ const axios = require('axios');
 module.exports.displayMovies = async function(req,res,next)
 {
     let movies = await axios.get('http://localhost:4000/api/movies');
+    let subscriptions = await axios.get('http://localhost:4000/api/subscribers');
+
+    for (let movie of movies.data){
+        movie.membersWatchedMovie = [];
+        for (let subscription of subscriptions.data){
+            for (let watchedMovie of subscription.movies){
+                if(watchedMovie.movieId.includes(movie._id)) {
+                    let member = await axios.get('http://localhost:4000/api/members/' + subscription.memberId);
+                    movie.membersWatchedMovie.push({ memberId : subscription.memberId, memberName: member.data.name, date : convertFormatOfDateTime(watchedMovie.date)});                }
+            }
+          
+        }
+    }
+
     res.render('layout', { page: "movies/allMovies", movies: movies.data });
 }
+
+
+function convertFormatOfDateTime(dateTime){
+    date = new Date(dateTime);
+    year = date.getFullYear();
+    month = date.getMonth()+1;
+    dt = date.getDate();
+
+    if (dt < 10) {
+    dt = '0' + dt;
+    }
+    if (month < 10) {
+    month = '0' + month;
+    }
+
+    return year+'/' + month + '/'+dt;
+}
+
 
 module.exports.displayMovie = async function(req,res,next)
 {

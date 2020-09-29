@@ -14,17 +14,26 @@
                 <button type="button" id="subscribeBtn" class="btn btn-secondary">Subscribe to a new movie</button>
                 <div class="card d-none" id="addNewMovieSection">
                     Add a new movie <br>
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                          <label class="input-group-text" for="inputGroupSelect01">Options</label>
+                    <form method="POST" action="/subscriptions/edit/<%= members[i]._id %>">
+                        <div class="row">
+                            <div class="col">
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                    <label class="input-group-text" for="inputGroupSelect01">Options</label>
+                                    </div>
+                                    <select name="newMovie" class="custom-select" id="inputGroupSelect01">
+                                        <option selected>Choose...</option>
+                                        <% for (let k = 0; k < members[i].unwatchedMovies.length; k++) { %>
+                                        <option value="<%= members[i].unwatchedMovies[k].movieId %>"><%= members[i].unwatchedMovies[k].movieName %></option>
+                                        <% } %>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <input name="watchMovieDate" class="form-control" type="date">
+                            </div>
                         </div>
-                        <select class="custom-select" id="inputGroupSelect01">
-                            <option selected>Choose...</option>
-                            <% for (let k = 0; k < members[i].unwatchedMovies.length; k++) { %>
-                            <option value="<%= members[i].unwatchedMovies[k].movieId %>"><%= members[i].unwatchedMovies[k].movieName %></option>
-                            <% } %>
-                        </select>
-                    </div>       
+                    </form>       
                 </div>
                 <ul>
                     <% for (let j=0; j< members[i].watchedMovies.length; j++) { %>

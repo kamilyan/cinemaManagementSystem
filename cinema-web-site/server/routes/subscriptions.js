@@ -8,7 +8,7 @@ router.get('/', subscriptionsController.displayMembers);
   
 //router.post('/add', subscriptionsController.performAddMember);
   
-//router.get('/edit/:id', subscriptionsController.displayEditMemember);
+//router.get('/edit/:id', subscriptionsController.displayEditMember);
   
 //router.post('/edit/:id', subscriptionsController.performEditMember);
 

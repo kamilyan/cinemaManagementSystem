@@ -42,9 +42,9 @@ function convertFormatOfDateTime(dateTime){
 }
 
 /*
-module.exports.displayAddMovie = function(req,res,next)
+module.exports.displayEditMember = function(req,res,next)
 {
-    res.render('layout', { page: "movies/addPage" });
+    res.render('layout', { page: "subscriptions/editMemberPage" });
 }
 
 module.exports.performAddMovie = function(req,res,next)
