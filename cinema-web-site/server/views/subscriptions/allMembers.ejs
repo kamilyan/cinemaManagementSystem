@@ -11,13 +11,34 @@
             <a class="btn btn-danger" href="/subscribers/delete/<%= members[i]._id %>">Delete</a>
             <div class="card">
                 <h4>Movies Watched</h4>
-                    <ul>
-                        <% for (let j=0; j< members[i].movies.length; j++) { %>
-                            <li><%= members[i].movies[j].movieName %>, <%= members[i].movies[j].date %> </li>      
-                        <% } %>
-                    </ul>
+                <button type="button" id="subscribeBtn" class="btn btn-secondary">Subscribe to a new movie</button>
+                <div class="card d-none" id="addNewMovieSection">
+                    Add a new movie <br>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                          <label class="input-group-text" for="inputGroupSelect01">Options</label>
+                        </div>
+                        <select class="custom-select" id="inputGroupSelect01">
+                            <option selected>Choose...</option>
+                            <% for (let k = 0; k < members[i].unwatchedMovies.length; k++) { %>
+                            <option value="<%= members[i].unwatchedMovies[k].movieId %>"><%= members[i].unwatchedMovies[k].movieName %></option>
+                            <% } %>
+                        </select>
+                    </div>       
+                </div>
+                <ul>
+                    <% for (let j=0; j< members[i].watchedMovies.length; j++) { %>
+                        <li><a href="/movies/allMovies/<%= members[i].watchedMovies[j].movieId %>"><%= members[i].watchedMovies[j].movieName %></a>, <%= members[i].watchedMovies[j].date %> </li>      
+                    <% } %>
+                </ul>
             </div>
         </div>
     </div>
 </div>
 <% } %>
+
+<script>
+    $('#subscribeBtn').click(function() {
+        $('#addNewMovieSection').removeClass('d-none');
+    });
+</script>

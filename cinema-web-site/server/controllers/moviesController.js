@@ -6,6 +6,13 @@ module.exports.displayMovies = async function(req,res,next)
     res.render('layout', { page: "movies/allMovies", movies: movies.data });
 }
 
+module.exports.displayMovie = async function(req,res,next)
+{
+    let movie = await axios.get('http://localhost:4000/api/movies/' + req.params.id);
+    res.render('layout', { page: "movies/allMovies", movies: [movie.data] });
+}
+
+
 module.exports.displayAddMovie = function(req,res,next)
 {
     res.render('layout', { page: "movies/addPage" });

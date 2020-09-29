@@ -3,6 +3,8 @@ var router = express.Router();
 let moviesController = require('../controllers/moviesController');
 
 router.get('/allMovies', moviesController.displayMovies);
+
+router.get('/allMovies/:id', moviesController.displayMovie);
   
 router.get('/add', moviesController.displayAddMovie);
   
