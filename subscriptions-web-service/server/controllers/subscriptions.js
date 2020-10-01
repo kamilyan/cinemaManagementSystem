@@ -30,14 +30,19 @@ module.exports.displaySubscriber = async (req,res,next) =>
 
 module.exports.addSubscriber = async (req,res,next) =>
 {
-    console.log(req.body.movies[0].movieId)
-    console.log(req.body.movies[0].date)
-
-    const subscriber = new Subscriber({
-        memberId : req.body.memberId,
-        movies : [ { movieId: req.body.movies[0].movieId, date: new Date(req.body.movies[0].date) } ]
-    });
-    console.log(subscriber)
+    let subscriber;
+    console.log(req.body.movies)
+    if(req.body.movies != undefined) {
+            subscriber = new Subscriber({
+            memberId : req.body.memberId,
+            movies : [ { movieId: req.body.movies[0].movieId, date: new Date(req.body.movies[0].date) } ]
+        });
+    } 
+    else {
+        subscriber = new Subscriber({
+            memberId : req.body.memberId,
+        });
+    }
     try
     {
         const newSubscriber = await subscriber.save();

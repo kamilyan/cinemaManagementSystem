@@ -3,7 +3,7 @@ const axios = require('axios');
 const db = require('./db');
 
 // seeds members DB, movies DB (from web service)
-
+/*
 seeder.connect(db.URI,{ useNewUrlParser: true, useUnifiedTopology: true},async function(){
     seeder.loadModels([
         __dirname +"/../models/odm/subscriptionsDB/movies",
@@ -16,7 +16,7 @@ seeder.connect(db.URI,{ useNewUrlParser: true, useUnifiedTopology: true},async f
         });
     });
 });
-
+*/
 async function getMoviesData()
 {
     let movies = await axios.get("https://api.tvmaze.com/shows");

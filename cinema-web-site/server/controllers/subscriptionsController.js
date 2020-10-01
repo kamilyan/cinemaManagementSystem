@@ -6,7 +6,6 @@ module.exports.displayMembers = async function(req,res,next)
     let subscribers = []
 
     for (subscription of subscriptions.data){
-
         let subscriber = await axios.get('http://localhost:4000/api/members/' + subscription.memberId);
 
         subscriber.data.watchedMovies = [];
@@ -41,23 +40,29 @@ function convertFormatOfDateTime(dateTime){
     return year+'/' + month + '/'+dt;
 }
 
-/*
-module.exports.displayEditMember = function(req,res,next)
+
+module.exports.displayAddMember = function(req,res,next)
 {
-    res.render('layout', { page: "subscriptions/editMemberPage" });
+    res.render('layout', { page: "subscriptions/addMember" });
 }
 
-module.exports.performAddMovie = function(req,res,next)
+module.exports.performAddMember = async function(req,res,next)
 {
-    axios.post("http://localhost:4000/api/movies",  
+    let newMember = await axios.post("http://localhost:4000/api/members",  
     {
         "name": req.body.name,
-        "genres": req.body.genres.split(','),
-        "image": req.body.imageURL,
-        "premiered":  new Date(req.body.premiered)
-    })
-    .then(() => res.redirect('/movies/allMovies'));
+        "email": req.body.email,
+        "city": req.body.city,
+    });
+    await axios.post("http://localhost:4000/api/subscribers",
+    {
+        "memberId": newMember.data._id
+    });
+    
+    res.redirect('/subscriptions');
 }
+
+/*
 
 module.exports.displayEditMovie = function(req,res,next)
 {

@@ -11,8 +11,8 @@
             <a class="btn btn-danger" href="/subscribers/delete/<%= members[i]._id %>">Delete</a>
             <div class="card">
                 <h4>Movies Watched</h4>
-                <button type="button" id="subscribeBtn" class="btn btn-secondary">Subscribe to a new movie</button>
-                <div class="card d-none" id="addNewMovieSection">
+                <button type="button" onClick="showAddMovieSection( '<%= i %>' )" class="btn btn-secondary">Subscribe to a new movie</button>
+                <div style="display:none;" class="card" id="addNewMovieSection<%= i %>">
                     Add a new movie <br>
                     <form method="POST" action="/subscriptions/edit/<%= members[i]._id %>">
                         <div class="row">
@@ -47,7 +47,7 @@
 <% } %>
 
 <script>
-    $('#subscribeBtn').click(function() {
-        $('#addNewMovieSection').removeClass('d-none');
-    });
+    function showAddMovieSection(i) {
+        $('#addNewMovieSection' + i).toggle();
+        };
 </script>
