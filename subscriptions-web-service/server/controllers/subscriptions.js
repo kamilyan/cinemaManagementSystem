@@ -31,7 +31,6 @@ module.exports.displaySubscriber = async (req,res,next) =>
 module.exports.addSubscriber = async (req,res,next) =>
 {
     let subscriber;
-    console.log(req.body.movies)
     if(req.body.movies != undefined) {
             subscriber = new Subscriber({
             memberId : req.body.memberId,
@@ -62,7 +61,7 @@ module.exports.editSubscriber = async (req,res,next) =>
         {
             return res.status(404).json({message: 'Cannot find this subscriber'});
         }
-        subscriber.movies.push({ movieId : req.body.movieId, date : req.body.date});
+        subscriber.movies = req.body.movies;
         const updatedSubscriber = await subscriber.save();
         res.status(200).json(updatedSubscriber);
     } catch(err)

@@ -19,6 +19,7 @@ module.exports.displayMembers = async function(req,res,next)
         }
         let unwatchedMovies = movies.data.map(movie => { return { movieName : movie.name , movieId : movie._id }});
         subscriber.data.unwatchedMovies = unwatchedMovies;
+        subscriber.data.subscriptionId = subscription._id;
         subscribers.push(subscriber.data);
      }
     res.render('layout', { page: "subscriptions/allMembers", members: subscribers });
@@ -62,27 +63,32 @@ module.exports.performAddMember = async function(req,res,next)
     res.redirect('/subscriptions');
 }
 
-/*
-
-module.exports.displayEditMovie = function(req,res,next)
+module.exports.performAddMovieToMember = async function(req,res,next)
 {
-    axios.get("http://localhost:4000/api/movies/" + req.params.id)
-    .then((movie) => {
-        res.render('layout', { page: "movies/editPage", movie : movie.data });
-    })
+    let subscription = await axios.get('http://localhost:4000/api/subscribers/' + req.params.id);
+    subscription.data.movies.push({ movieId: req.body.movieId, date: req.body.watchMovieDate });
+    let movie = await axios.get('http://localhost:4000/api/movies/' + req.body.movieId);
+    await axios.put('http://localhost:4000/api/subscribers/' + req.params.id, subscription.data);
+    res.status(200).json({movie: {movieName: movie.data.name, movieId: req.body.movieId, date: req.body.watchMovieDate }}
+    );
 }
 
-module.exports.performEditMovie = function(req,res,next)
+
+module.exports.displayEditMember = async function(req,res,next)
 {
-    axios.put("http://localhost:4000/api/movies",  
+    let editedMember = await axios.get("http://localhost:4000/api/members/" + req.params.id);
+    console.log(editedMember)
+    res.render( 'layout', { page: 'subscriptions/editMember', member : editedMember.data } );
+}
+
+module.exports.performEditMember = async function(req,res,next)
+{
+    await axios.put("http://localhost:4000/api/members/" + req.params.id,  
     {
-        "_id": req.params.id,
         "name": req.body.name,
-        "genres": req.body.genres.split(','),
-        "image": req.body.imageURL,
-        "premiered":  new Date(req.body.premiered)
-    })
-    .then(() => res.redirect('/movies/allMovies'));
+        "email": req.body.email,
+        "city": req.body.city,
+    });
+    
+    res.redirect('/subscriptions');
 }
-
-*/

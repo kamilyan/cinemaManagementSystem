@@ -7,24 +7,24 @@
             <h4> <%= members[i].name %></h4>
             Email : <%= members[i].email %><br>
             City :  <%= members[i].city %><br><br>
-            <a class="btn btn-primary" href="/subscribers/edit/<%= members[i]._id %>">Edit</a>
-            <a class="btn btn-danger" href="/subscribers/delete/<%= members[i]._id %>">Delete</a>
+            <a class="btn btn-primary" href="/subscriptions/edit/<%= members[i]._id %>">Edit</a>
+            <a class="btn btn-danger" href="/subscriptions/delete/<%= members[i]._id %>">Delete</a>
             <div class="card">
                 <h4>Movies Watched</h4>
                 <button type="button" onClick="showAddMovieSection( '<%= i %>' )" class="btn btn-secondary">Subscribe to a new movie</button>
                 <div style="display:none;" class="card" id="addNewMovieSection<%= i %>">
-                    Add a new movie <br>
-                    <form method="POST" action="/subscriptions/edit/<%= members[i]._id %>">
+                    <h4>Add a new movie</h4><br>
+                    <form id="addMovieForm<%= i %>" action="/subscriptions/addMovie/<%= members[i].subscriptionId %>">
                         <div class="row">
                             <div class="col">
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
-                                    <label class="input-group-text" for="inputGroupSelect01">Options</label>
+                                    <label class="input-group-text" for="inputGroupSelect<%= i %>">Options</label>
                                     </div>
-                                    <select name="newMovie" class="custom-select" id="inputGroupSelect01">
+                                    <select name="movieId" class="custom-select selectMovie<%= i %>" id="inputGroupSelect<%= i %>">
                                         <option selected>Choose...</option>
                                         <% for (let k = 0; k < members[i].unwatchedMovies.length; k++) { %>
-                                        <option value="<%= members[i].unwatchedMovies[k].movieId %>"><%= members[i].unwatchedMovies[k].movieName %></option>
+                                        <option id="<%= members[i].unwatchedMovies[k].movieId %>" value="<%= members[i].unwatchedMovies[k].movieId %>"><%= members[i].unwatchedMovies[k].movieName %></option>
                                         <% } %>
                                     </select>
                                 </div>
@@ -33,9 +33,10 @@
                                 <input name="watchMovieDate" class="form-control" type="date">
                             </div>
                         </div>
+                        <input type="submit" value="Subscribe">
                     </form>       
                 </div>
-                <ul>
+                <ul id="movieItems<%= i %>">
                     <% for (let j=0; j< members[i].watchedMovies.length; j++) { %>
                         <li><a href="/movies/allMovies/<%= members[i].watchedMovies[j].movieId %>"><%= members[i].watchedMovies[j].movieName %></a>, <%= members[i].watchedMovies[j].date %> </li>      
                     <% } %>
@@ -48,6 +49,21 @@
 
 <script>
     function showAddMovieSection(i) {
-        $('#addNewMovieSection' + i).toggle();
-        };
+        $('#addNewMovieSection'+ i).toggle();
+        let frm = $('#addMovieForm' + i);
+        frm.submit(function (ev) {
+        ev.preventDefault();
+        $.ajax({
+            url: frm.attr('action'),
+            type: 'PUT',
+            data: frm.serialize(),
+            success: function (data) {
+                $('#movieItems' + i).append(
+                    "<li><a href='/movies/allMovies/'" + data.movie.movieId + ">" + data.movie.movieName + "</a>, " + data.movie.date + "</li>"
+                    );
+                $(".selectMovie" +  i + " option[id=" + data.movie.movieId + "]").remove();
+                }
+             });
+        });
+    }; 
 </script>

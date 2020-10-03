@@ -7,10 +7,13 @@ router.get('/', subscriptionsController.displayMembers);
 router.get('/add', subscriptionsController.displayAddMember);
   
 router.post('/add', subscriptionsController.performAddMember);
-  
-//router.get('/edit/:id', subscriptionsController.displayEditMember);
-  
-//router.post('/edit/:id', subscriptionsController.performEditMember);
+    
+router.put('/addMovie/:id', subscriptionsController.performAddMovieToMember);
+
+router.get('/edit/:id', subscriptionsController.displayEditMember);
+
+router.post('/edit/:id', subscriptionsController.performEditMember);
+
 
 //router.get('/delete/:id', subscriptionsController.performDeleteMember);
 

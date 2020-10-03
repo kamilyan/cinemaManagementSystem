@@ -55,9 +55,9 @@ module.exports.editMember = async (req,res,next) =>
         {
             return res.status(404).json({message: 'Cannot find this member'});
         }
-        member.name = req.body.name,
-        member.email = req.body.email,
-        member.city = req.body.city
+        member.name = req.body.name;
+        member.email = req.body.email;
+        member.city = req.body.city;
         const updatedMember = await member.save();
         res.status(200).json(updatedMember);
     } catch(err)
