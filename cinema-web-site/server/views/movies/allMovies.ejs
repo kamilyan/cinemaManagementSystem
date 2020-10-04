@@ -1,9 +1,11 @@
 <%- include ./main.ejs %>
 
+<br>
 <div class="row">
     <div class="offset-md-3 col-md-6 col-sm-12">
         <% for (let i = 0; i < movies.length; i++) { %>
-            <div class="card" >
+            <div class="card cardMovies">
+                <h4 class="card-title" ><%= movies[i].name %> ,  <%= new Date(movies[i].premiered).getFullYear(); %></h4>
                 <div class="row">
                     <div class="col-md-4 col-sm-12">
                         <img class="card-img-top img-thumbnail" src="<%= movies[i].image %>" alt="Responsive image">
@@ -17,16 +19,31 @@
                         </ul>
                     </div>
                 </div>
-                    <h4 class="card-title"><%= movies[i].name %> , <%= new Date(movies[i].premiered).getFullYear(); %></h4>
+                <div class="card-body">
                     <p class="card-text">
-                        genres: <% for (let j = 0; j < movies[i].genres.length ; j ++ ) { %>
+                        Genres: <% for (let j = 0; j < movies[i].genres.length ; j ++ ) { %>
                                 <%= movies[i].genres[j] %>
                     <% } %>
                     </p>
-
-                    <a class="btn btn-primary" href="/movies/edit/<%= movies[i]._id %>">Edit</a>
-                    <a class="btn btn-danger" href="/movies/delete/<%= movies[i]._id %>">Delete</a>
+                </div>
+                <% if (permissions.indexOf("updateMovies") > -1) { %>
+                <a class="btn btn-primary" href="/movies/edit/<%= movies[i]._id %>">Edit</a>
+                <% } %>
+                <% if ( permissions.indexOf("deleteMovies") > -1) { %>
+                <a class="btn btn-danger" href="/movies/delete/<%= movies[i]._id %>">Delete</a>
+                <% } %>
             </div>
          <% } %>
     </div>
 </div>
+
+<script>
+        $('#navBar').append(`<div><input class="form-control" id="myInput" type="text" placeholder="Search.."></div> `);
+        $('#myInput').on("keyup", function() {
+            let value = $(this).val().toLowerCase();
+            $(".cardMovies").filter(function(){
+                $(this).toggle($(this).find("h4").text().split(",")[0].toLowerCase().indexOf(value) > -1)
+            });
+        });
+
+</script>

@@ -29,7 +29,7 @@ async function intializeAdminFile(){
             "id": user[0]._id,
             "firstName": "admin",
             "lastName": "admin",
-            "createdData": Date.now(),
+            "createdData": new Date().toJSON().slice(0,10).replace(/-/g,'/'),
             "sessionTimeOut": 86400000
         }
 

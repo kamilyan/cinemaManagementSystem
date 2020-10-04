@@ -137,7 +137,7 @@ module.exports.performAddUser = async function(req, res, next) {
         "id": newUserDB._id,
         "firstName": req.body.firstName,
         "lastName": req.body.lastName,
-        "createdData": Date.now(),
+        "createdData": new Date().toJSON().slice(0,10).replace(/-/g,'/'),
         "sessionTimeOut": req.body.sessionTimeOut
     }
 
