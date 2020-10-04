@@ -71,9 +71,12 @@ module.exports.displayMovie = async function(req,res,next)
 }
 
 
-module.exports.displayAddMovie = function(req,res,next)
+module.exports.displayAddMovie = async function(req,res,next)
 {
-    res.render('layout', { page: "movies/addPage" });
+    let validPermission = await getMoviePermissions(req.user._id)
+    if(validPermission.indexOf("createMovies") > -1) {
+        res.render('layout', { page: "movies/addPage" });
+    }
 }
 
 module.exports.performAddMovie = function(req,res,next)
