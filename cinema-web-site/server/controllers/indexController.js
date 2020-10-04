@@ -28,6 +28,11 @@ module.exports.displayLogin = function(req, res, next) {
       }
  };
 
+module.exports.performLogout = (req, res, next) => {
+    req.logout();
+    res.redirect("/logout");
+}
+
  module.exports.processLoginPage = (req,res,next) => 
  {
       passport.authenticate('local', (err, user, info) =>{

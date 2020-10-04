@@ -1,4 +1,5 @@
 const axios = require('axios');
+const { send } = require('process');
 
 module.exports.displayMembers = async function(req,res,next)
 {
@@ -90,5 +91,16 @@ module.exports.performEditMember = async function(req,res,next)
         "city": req.body.city,
     });
     
+    res.redirect('/subscriptions');
+}
+
+module.exports.performDeleteMember = async function(req,res,next) 
+{
+    await axios.delete("http://localhost:4000/api/members/" + req.params.id);
+    let subscribers = await axios.get("http://localhost:4000/api/subscribers");
+    let deleteSubscriber = subscribers.data.find(subscriber => subscriber.memberId === req.params.id);
+    console.log(deleteSubscriber)
+    await axios.delete("http://localhost:4000/api/subscribers/" + deleteSubscriber._id);
+
     res.redirect('/subscriptions');
 }

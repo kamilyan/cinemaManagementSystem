@@ -13,6 +13,10 @@ router.get('/login', indexController.displayLogin);
 
 router.post('/login', indexController.processLoginPage);
 
+router.post('/login', indexController.processLoginPage);
+
+router.get('/logout', indexController.performLogout);
+
 router.get('/createAccount', indexController.displayCreateAccount);
   
 router.post('/createAccount', indexController.performCreateAccount);

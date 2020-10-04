@@ -70,7 +70,7 @@ module.exports.deleteMember = async (req,res,next) =>
 {
     try
     {
-        const member = await Movie.findById(req.params.id);
+        const member = await Member.findById(req.params.id);
         await member.remove();
         res.json({message: 'Deleted member'});
     } catch(err)
