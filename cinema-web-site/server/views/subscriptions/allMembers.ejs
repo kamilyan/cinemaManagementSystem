@@ -6,12 +6,13 @@
         <div class="card">
             <h4> <%= members[i].name %></h4>
             Email : <%= members[i].email %><br>
-            City :  <%= members[i].city %><br><br>
+            City : <%= members[i].city %><br><br>
             <a class="btn btn-primary" href="/subscriptions/edit/<%= members[i]._id %>">Edit</a>
             <a class="btn btn-danger" href="/subscriptions/delete/<%= members[i]._id %>">Delete</a>
             <div class="card">
                 <h4>Movies Watched</h4>
-                <button type="button" onClick="showAddMovieSection( '<%= i %>' )" class="btn btn-secondary">Subscribe to a new movie</button>
+                <button type="button" id="<%= i %>" class="btn btn-secondary showAddMovieSection">Subscribe to a new
+                    movie</button>
                 <div style="display:none;" class="card" id="addNewMovieSection<%= i %>">
                     <h4>Add a new movie</h4><br>
                     <form id="addMovieForm<%= i %>" action="/subscriptions/addMovie/<%= members[i].subscriptionId %>">
@@ -19,12 +20,15 @@
                             <div class="col">
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
-                                    <label class="input-group-text" for="inputGroupSelect<%= i %>">Options</label>
+                                        <label class="input-group-text" for="inputGroupSelect<%= i %>">Options</label>
                                     </div>
-                                    <select name="movieId" class="custom-select selectMovie<%= i %>" id="inputGroupSelect<%= i %>">
+                                    <select name="movieId" class="custom-select selectMovie<%= i %>"
+                                        id="inputGroupSelect<%= i %>">
                                         <option selected>Choose...</option>
                                         <% for (let k = 0; k < members[i].unwatchedMovies.length; k++) { %>
-                                        <option id="<%= members[i].unwatchedMovies[k].movieId %>" value="<%= members[i].unwatchedMovies[k].movieId %>"><%= members[i].unwatchedMovies[k].movieName %></option>
+                                        <option id="<%= members[i].unwatchedMovies[k].movieId %>"
+                                            value="<%= members[i].unwatchedMovies[k].movieId %>">
+                                            <%= members[i].unwatchedMovies[k].movieName %></option>
                                         <% } %>
                                     </select>
                                 </div>
@@ -34,11 +38,15 @@
                             </div>
                         </div>
                         <input type="submit" value="Subscribe">
-                    </form>       
+                    </form>
                 </div>
                 <ul id="movieItems<%= i %>">
                     <% for (let j=0; j< members[i].watchedMovies.length; j++) { %>
-                        <li><a href="/movies/allMovies/<%= members[i].watchedMovies[j].movieId %>"><%= members[i].watchedMovies[j].movieName %></a>, <%= members[i].watchedMovies[j].date %> </li>      
+                    <li>
+                        <a
+                            href="/movies/allMovies/<%= members[i].watchedMovies[j].movieId %>"><%= members[i].watchedMovies[j].movieName %></a>
+                            , <%= members[i].watchedMovies[j].date %>
+                    </li>
                     <% } %>
                 </ul>
             </div>
@@ -46,24 +54,3 @@
     </div>
 </div>
 <% } %>
-
-<script>
-    function showAddMovieSection(i) {
-        $('#addNewMovieSection'+ i).toggle();
-        let frm = $('#addMovieForm' + i);
-        frm.submit(function (ev) {
-        ev.preventDefault();
-        $.ajax({
-            url: frm.attr('action'),
-            type: 'PUT',
-            data: frm.serialize(),
-            success: function (data) {
-                $('#movieItems' + i).append(
-                    "<li><a href='/movies/allMovies/'" + data.movie.movieId + ">" + data.movie.movieName + "</a>, " + data.movie.date + "</li>"
-                    );
-                $(".selectMovie" +  i + " option[id=" + data.movie.movieId + "]").remove();
-                }
-             });
-        });
-    }; 
-</script>
