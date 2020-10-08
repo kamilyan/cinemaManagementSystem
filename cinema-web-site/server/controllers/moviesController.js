@@ -22,7 +22,7 @@ module.exports.displayMovies = async function(req,res,next)
                 for (let watchedMovie of subscription.movies){
                     if(watchedMovie.movieId.includes(movie._id)) {
                         let member = await axios.get('http://localhost:4000/api/members/' + subscription.memberId);
-                        movie.membersWatchedMovie.push({ memberId : subscription.memberId, memberName: member.data.name, date : convertFormatOfDateTime(watchedMovie.date)});                }
+                        movie.membersWatchedMovie.push({ memberId : subscription.memberId, memberName: member.data.name, date : watchedMovie.date});                }
                 }
             
             }
@@ -30,24 +30,6 @@ module.exports.displayMovies = async function(req,res,next)
         res.render('layout', { page: "movies/allMovies", movies: movies.data , permissions: validPermission});
     }
 }
-
-
-function convertFormatOfDateTime(dateTime){
-    date = new Date(dateTime);
-    year = date.getFullYear();
-    month = date.getMonth()+1;
-    dt = date.getDate();
-
-    if (dt < 10) {
-    dt = '0' + dt;
-    }
-    if (month < 10) {
-    month = '0' + month;
-    }
-
-    return year+'/' + month + '/'+dt;
-}
-
 
 module.exports.displayMovie = async function(req,res,next)
 {
@@ -61,7 +43,7 @@ module.exports.displayMovie = async function(req,res,next)
                 for (let watchedMovie of subscription.movies){
                     if(watchedMovie.movieId.includes(movie._id)) {
                         let member = await axios.get('http://localhost:4000/api/members/' + subscription.memberId);
-                        movie.membersWatchedMovie.push({ memberId : subscription.memberId, memberName: member.data.name, date : convertFormatOfDateTime(watchedMovie.date)});                }
+                        movie.membersWatchedMovie.push({ memberId : subscription.memberId, memberName: member.data.name, date : watchedMovie.date});                }
                 }
             
             }
@@ -86,7 +68,7 @@ module.exports.performAddMovie = function(req,res,next)
         "name": req.body.name,
         "genres": req.body.genres.split(','),
         "image": req.body.imageURL,
-        "premiered":  new Date(req.body.premiered)
+        "premiered": req.body.premiered
     })
     .then(() => res.redirect('/movies/allMovies'));
 }
