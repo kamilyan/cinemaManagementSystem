@@ -18,7 +18,7 @@ router.post('/login', indexController.processLoginPage);
 router.get('/logout', indexController.performLogout);
 
 router.get('/createAccount', indexController.displayCreateAccount);
-  
+
 router.post('/createAccount', indexController.performCreateAccount);
 
 module.exports = router;

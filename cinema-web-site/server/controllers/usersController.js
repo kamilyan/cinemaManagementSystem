@@ -1,25 +1,23 @@
 let userModel = require('../models/odm/userDB/users');
-let usersDAL= require('../models/dals/usersDAL');
-let permissionDAL =require('../models/dals/permissionsDAL');
+let usersDAL = require('../models/dals/usersDAL');
+let permissionDAL = require('../models/dals/permissionsDAL');
 
 
-module.exports.displayUsers = function(req, res, next) {
+module.exports.displayUsers = function (req, res, next) {
     userModel.find(async (err, usersDB) => {
-        if(err)
-        {
+        if (err) {
             return console.error(err);
         }
-        else
-        {
+        else {
             let users = []
             for (user of usersDB) {
-                users.push({ "id": user.id, "username": user.username});
+                users.push({ "id": user.id, "username": user.username });
             }
 
-            users = await Promise.all(users.map(async(user) => { 
+            users = await Promise.all(users.map(async (user) => {
                 let userData = await usersDAL.getUserById(user.id);
                 let userPermission = await permissionDAL.getUserById(user.id);
-             return {
+                return {
                     "id": user.id,
                     "name": userData.firstName + " " + userData.lastName,
                     "username": user.username,
@@ -28,14 +26,14 @@ module.exports.displayUsers = function(req, res, next) {
                     "permissions": userPermission.permissions
                 }
             }));
-            
-            res.render('layout', { page: "users/allUsers", usersDetails : users});    
+
+            res.render('layout', { page: "users/allUsers", usersDetails: users });
         }
     })
 
-  }
-    
-module.exports.displayEditUser = async function(req, res, next) {
+}
+
+module.exports.displayEditUser = async function (req, res, next) {
     let user = await userModel.findById(req.params.id);
     let userData = await usersDAL.getUserById(req.params.id);
     let userPermission = await permissionDAL.getUserById(req.params.id);
@@ -49,10 +47,10 @@ module.exports.displayEditUser = async function(req, res, next) {
         "permissions": userPermission.permissions
     }
     console.log(userPermission.permissions)
-    res.render('layout', { page: "users/editUser", userDetails : user_Details});  
-  }
-  
-module.exports.performEditUser = async function(req, res, next) {
+    res.render('layout', { page: "users/editUser", userDetails: user_Details });
+}
+
+module.exports.performEditUser = async function (req, res, next) {
 
     let editedUserDB = await userModel.findById(req.params.id);
 
@@ -80,64 +78,60 @@ module.exports.performEditUser = async function(req, res, next) {
         "permissions": editedUserPermission
     }
 
-    editedUserDB.save(async (err) => 
-    {
-        if(err)
-        {
+    editedUserDB.save(async (err) => {
+        if (err) {
             console.log(err);
             res.end(err);
         }
-        else
-        {
+        else {
 
             let usersObj = await usersDAL.getUsers();
             usersObj.users = usersObj.users.map(user => {
-                    if(user.id == req.params.id)
-                        return editedUserData;
-                    else
-                        return user;
+                if (user.id == req.params.id)
+                    return editedUserData;
+                else
+                    return user;
             });
             await usersDAL.saveUsers(usersObj);
             let permissionsObj = await permissionDAL.getUsers();
             permissionsObj.users = permissionsObj.users.map(permission => {
-                if(permission.id == req.params.id)
+                if (permission.id == req.params.id)
                     return updatedUserPermission;
                 else
                     return permission;
             });
             await permissionDAL.saveUsers(permissionsObj);
-            
+
             res.redirect('/users');
         }
     })
-  }
+}
 
-module.exports.performDeleteUser = function(req, res, next) {
-    userModel.findOneAndRemove({ _id: req.params.id }, async function(err){
-            if(err)
-            {
-                console.log(err);
-                return res.end();
-            }
-            await usersDAL.deleteUserById(req.params.id);
-            await permissionDAL.deleteUserById(req.params.id);
-            
-            return res.redirect('/users');
+module.exports.performDeleteUser = function (req, res, next) {
+    userModel.findOneAndRemove({ _id: req.params.id }, async function (err) {
+        if (err) {
+            console.log(err);
+            return res.end();
+        }
+        await usersDAL.deleteUserById(req.params.id);
+        await permissionDAL.deleteUserById(req.params.id);
+
+        return res.redirect('/users');
     });
 }
 
-module.exports.displayAddUser = function(req, res, next) {
-    res.render('layout', { page: "users/addUser"});
-  }
+module.exports.displayAddUser = function (req, res, next) {
+    res.render('layout', { page: "users/addUser" });
+}
 
-module.exports.performAddUser = async function(req, res, next) {
-    let newUserDB = userModel({"username": req.body.username });
+module.exports.performAddUser = async function (req, res, next) {
+    let newUserDB = userModel({ "username": req.body.username });
 
     let newUserData = {
         "id": newUserDB._id,
         "firstName": req.body.firstName,
         "lastName": req.body.lastName,
-        "createdData": new Date().toJSON().slice(0,10).replace(/-/g,'/'),
+        "createdData": new Date().toJSON().slice(0, 10).replace(/-/g, '/'),
         "sessionTimeOut": req.body.sessionTimeOut
     }
 
@@ -157,24 +151,21 @@ module.exports.performAddUser = async function(req, res, next) {
         "permissions": userPermission
     }
 
-    userModel.create(newUserDB, async (err, userModel) => 
-    {
-        if(err)
-        {
+    userModel.create(newUserDB, async (err, userModel) => {
+        if (err) {
             console.log(err);
             res.end(err);
         }
-        else
-        {
+        else {
             let usersObj = await usersDAL.getUsers();
             usersObj.users.push(newUserData);
             await usersDAL.saveUsers(usersObj);
-        
+
             let permissionsObj = await permissionDAL.getUsers();
             permissionsObj.users.push(newUserPermission);
             await permissionDAL.saveUsers(permissionsObj);
-            
+
             return res.redirect('/users');
         }
     })
-  }
+}

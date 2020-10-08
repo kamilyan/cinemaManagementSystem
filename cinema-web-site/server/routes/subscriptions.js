@@ -16,6 +16,8 @@ function requireAuth(req, res, next)
 
 
 router.get('/',requireAuth, subscriptionsController.displayMembers);
+
+router.get('/:id',requireAuth, subscriptionsController.displayMember);
   
 router.get('/add',requireAuth, subscriptionsController.displayAddMember);
   

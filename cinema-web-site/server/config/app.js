@@ -26,9 +26,9 @@ let mongoose = require('mongoose');
 mongoose.set('useFindAndModify', false);
 let DB = require('./db');
 
-mongoose.connect(DB.URI, { useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.connect(DB.URI, { useNewUrlParser: true, useUnifiedTopology: true });
 
-let mongoDB= mongoose.connection;
+let mongoDB = mongoose.connection;
 mongoDB.on('error', console.error.bind(console, 'Connection Error: '));
 mongoDB.once('open', () => {
   console.log("Connected to MongoDB...");
@@ -78,12 +78,12 @@ app.use('/movies', moviesRouter);
 app.use('/subscriptions', subscriptionsRouter);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};

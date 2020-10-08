@@ -14,7 +14,7 @@
                     <ul>
                         <% for (let k=0; k < movies[i].membersWatchedMovie.length; k++) { %>
                         <li><a
-                                href="subscriptions/<%= movies[i].membersWatchedMovie[k].memberId %>"><%= movies[i].membersWatchedMovie[k].memberName %></a>
+                                href="/subscriptions/<%= movies[i].membersWatchedMovie[k].subscriptionId %>"><%= movies[i].membersWatchedMovie[k].memberName %></a>
                             <%= movies[i].membersWatchedMovie[k].date %> </li>
                         <% } %>
                     </ul>

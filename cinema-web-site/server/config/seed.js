@@ -6,13 +6,13 @@ const userModel = require('../models/odm/userDB/users');
 
 // seeds user DB (intialize an admin)
 
-seeder.connect(db.URI,{ useNewUrlParser: true, useUnifiedTopology: true},async function(){
+seeder.connect(db.URI, { useNewUrlParser: true, useUnifiedTopology: true }, async function () {
     seeder.loadModels([
-        __dirname +"/../models/odm/userDB/users"
+        __dirname + "/../models/odm/userDB/users"
     ]);
-    seeder.clearModels(['User'],async function() {
+    seeder.clearModels(['User'], async function () {
         let populateAdmin = getAdmin();
-        seeder.populateModels([populateAdmin], async function(){
+        seeder.populateModels([populateAdmin], async function () {
             await intializeAdminFile();
         });
     });
@@ -22,14 +22,14 @@ function getAdmin() {
     return { 'model': 'User', 'documents': [{ username: "admin", password: "admin" }] };
 }
 
-async function intializeAdminFile(){
-    userModel.find({username : "admin"}, async (err, user)  => {
+async function intializeAdminFile() {
+    userModel.find({ username: "admin" }, async (err, user) => {
         //intialize admin.
         let adminDetails = {
             "id": user[0]._id,
             "firstName": "admin",
             "lastName": "admin",
-            "createdData": new Date().toJSON().slice(0,10).replace(/-/g,'/'),
+            "createdData": new Date().toJSON().slice(0, 10).replace(/-/g, '/'),
             "sessionTimeOut": 86400000
         }
 
@@ -46,15 +46,14 @@ async function intializeAdminFile(){
                 "updateMovies"
             ]
         }
-        
-        //intialize json files with admin info, everytime the system starts.
-        await usersDAL.saveUsers({"users": [adminDetails]});
-        await permissionsDAL.saveUsers({"users": [adminPermissions]});
 
-        userModel.findOne({username: "admin"}, (err,user) =>
-         {
+        //intialize json files with admin info, everytime the system starts.
+        await usersDAL.saveUsers({ "users": [adminDetails] });
+        await permissionsDAL.saveUsers({ "users": [adminPermissions] });
+
+        userModel.findOne({ username: "admin" }, (err, user) => {
             // setup password for the user account
-           user.setPassword("admin", () => user.save());
+            user.setPassword("admin", () => user.save());
         });
     });
 }
