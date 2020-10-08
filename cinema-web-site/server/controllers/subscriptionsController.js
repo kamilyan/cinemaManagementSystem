@@ -95,7 +95,6 @@ module.exports.performAddMovieToMember = async function (req, res, next) {
 
 module.exports.displayEditMember = async function (req, res, next) {
     let editedMember = await axios.get("http://localhost:4000/api/members/" + req.params.id);
-    console.log(editedMember)
     res.render('layout', { page: 'subscriptions/editMember', member: editedMember.data });
 }
 

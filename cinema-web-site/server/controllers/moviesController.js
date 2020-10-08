@@ -1,4 +1,5 @@
 const axios = require('axios');
+const { move } = require('../config/app');
 const permissions = require("../models/dals/permissionsDAL");
 
 async function getMoviePermissions(userId) {
@@ -88,4 +89,21 @@ module.exports.performEditMovie = function (req, res, next) {
             "premiered": new Date(req.body.premiered)
         })
         .then(() => res.redirect('/movies/allMovies'));
+}
+
+module.exports.performDeleteMovie = async function (req, res, next) {
+   await axios.delete("http://localhost:4000/api/movies/" + req.params.id)
+  let subscribers = await axios.get("http://localhost:4000/api/subscribers");
+  
+    for (let subscriber of subscribers.data) {
+        index = subscriber.movies.findIndex(async movie => movieId == req.params.id)
+        if(index != -1){
+            subscriber.movies.splice(index, 1);
+            await axios.put("http://localhost:4000/api/subscribers/" + subscriber._id,
+            {
+                movies: subscriber.movies
+            })
+        }
+    }; 
+    res.redirect('/movies/allMovies');
 }
