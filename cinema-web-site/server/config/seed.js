@@ -51,9 +51,13 @@ async function intializeAdminFile() {
         await usersDAL.saveUsers({ "users": [adminDetails] });
         await permissionsDAL.saveUsers({ "users": [adminPermissions] });
 
-        userModel.findOne({ username: "admin" }, (err, user) => {
-            // setup password for the user account
-            user.setPassword("admin", () => user.save());
-        });
+        try {
+            userModel.findOne({ username: "admin" }, (err, user) => {
+                // setup password for the user account
+                user.setPassword("admin", () => user.save());
+            });
+        } catch (error) {
+            console.log(error);
+        }
     });
 }

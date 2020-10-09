@@ -7,8 +7,8 @@ let memberSchema = mongoose.Schema({
     city: String
 
 },
-{
-    collection: 'members'
-});
+    {
+        collection: 'members'
+    });
 
 module.exports = mongoose.model('members', memberSchema);

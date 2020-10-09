@@ -24,6 +24,6 @@ router.get('/edit/:id', requireAuth, moviesController.displayEditMovie);
 
 router.post('/edit/:id', requireAuth, moviesController.performEditMovie);
 
-router.get('/delete/:id',requireAuth, moviesController.performDeleteMovie);
+router.get('/delete/:id', requireAuth, moviesController.performDeleteMovie);
 
 module.exports = router;

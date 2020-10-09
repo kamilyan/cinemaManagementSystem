@@ -91,7 +91,7 @@ module.exports.performCreateAccount = (req, res, next) => {
           res.end();
         }
         else {
-          res.send("good");
+          res.redirect('/');
         }
       });
     });

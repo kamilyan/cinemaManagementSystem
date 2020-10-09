@@ -7,8 +7,8 @@ let movieSchema = mongoose.Schema({
     image: String,
     premiered: Date
 },
-{
-    collection: 'movies'
-});
+    {
+        collection: 'movies'
+    });
 
 module.exports = mongoose.model('movies', movieSchema);

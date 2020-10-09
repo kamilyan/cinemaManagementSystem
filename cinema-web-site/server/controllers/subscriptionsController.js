@@ -1,50 +1,59 @@
 const axios = require('axios');
-const { send } = require('process');
 
 module.exports.displayMembers = async function (req, res, next) {
-    let subscriptions = await axios.get('http://localhost:4000/api/subscribers');
-    let subscribers = []
+    try {
+        let subscriptions = await axios.get('http://localhost:4000/api/subscribers');
+        let subscribers = []
 
-    for (let subscription of subscriptions.data) {
-        let subscriber = await axios.get('http://localhost:4000/api/members/' + subscription.memberId);
+        for (let subscription of subscriptions.data) {
+            let subscriber = await axios.get('http://localhost:4000/api/members/' + subscription.memberId);
+
+            subscriber.data.watchedMovies = [];
+            subscriber.data.unwatchedMovies = [];
+
+            let movies = await axios.get('http://localhost:4000/api/movies');
+            for (let movieWatched of subscription.movies) {
+                let movieIndex = movies.data.findIndex(movie => movieWatched.movieId == movie._id);
+                subscriber.data.watchedMovies.push({ movieId: movieWatched.movieId, movieName: movies.data[movieIndex].name, date: convertFormatOfDateTime(movieWatched.date) });
+                movies.data.splice(movieIndex, 1);
+            }
+            let unwatchedMovies = movies.data.map(movie => { return { movieName: movie.name, movieId: movie._id } });
+            subscriber.data.unwatchedMovies = unwatchedMovies;
+            subscriber.data.subscriptionId = subscription._id;
+            subscribers.push(subscriber.data);
+        }
+        res.render('layout', { page: "subscriptions/allMembers", members: subscribers });
+    } catch (error) {
+        console.log(error);
+        res.end();
+    }
+}
+
+
+module.exports.displayMember = async function (req, res, next) {
+    try {
+        let subscription = await axios.get('http://localhost:4000/api/subscribers/' + req.params.id);
+
+        let subscriber = await axios.get('http://localhost:4000/api/members/' + subscription.data.memberId);
 
         subscriber.data.watchedMovies = [];
         subscriber.data.unwatchedMovies = [];
 
         let movies = await axios.get('http://localhost:4000/api/movies');
-        for (let movieWatched of subscription.movies) {
+        for (let movieWatched of subscription.data.movies) {
             let movieIndex = movies.data.findIndex(movie => movieWatched.movieId == movie._id);
             subscriber.data.watchedMovies.push({ movieId: movieWatched.movieId, movieName: movies.data[movieIndex].name, date: convertFormatOfDateTime(movieWatched.date) });
             movies.data.splice(movieIndex, 1);
         }
         let unwatchedMovies = movies.data.map(movie => { return { movieName: movie.name, movieId: movie._id } });
         subscriber.data.unwatchedMovies = unwatchedMovies;
-        subscriber.data.subscriptionId = subscription._id;
-        subscribers.push(subscriber.data);
+        subscriber.data.subscriptionId = subscription.data._id;
+        console.log(subscriber)
+        res.render('layout', { page: "subscriptions/allMembers", members: [subscriber.data] });
+    } catch (error) {
+        console.log(error);
+        res.end();
     }
-    res.render('layout', { page: "subscriptions/allMembers", members: subscribers });
-}
-
-
-module.exports.displayMember = async function (req, res, next) {
-    let subscription = await axios.get('http://localhost:4000/api/subscribers/' + req.params.id);
-
-    let subscriber = await axios.get('http://localhost:4000/api/members/' + subscription.data.memberId);
-
-    subscriber.data.watchedMovies = [];
-    subscriber.data.unwatchedMovies = [];
-
-    let movies = await axios.get('http://localhost:4000/api/movies');
-    for (let movieWatched of subscription.data.movies) {
-        let movieIndex = movies.data.findIndex(movie => movieWatched.movieId == movie._id);
-        subscriber.data.watchedMovies.push({ movieId: movieWatched.movieId, movieName: movies.data[movieIndex].name, date: convertFormatOfDateTime(movieWatched.date) });
-        movies.data.splice(movieIndex, 1);
-    }
-    let unwatchedMovies = movies.data.map(movie => { return { movieName: movie.name, movieId: movie._id } });
-    subscriber.data.unwatchedMovies = unwatchedMovies;
-    subscriber.data.subscriptionId = subscription.data._id;
-    console.log(subscriber)
-    res.render('layout', { page: "subscriptions/allMembers", members: [subscriber.data] });
 }
 
 function convertFormatOfDateTime(dateTime) {
@@ -69,52 +78,80 @@ module.exports.displayAddMember = function (req, res, next) {
 }
 
 module.exports.performAddMember = async function (req, res, next) {
-    let newMember = await axios.post("http://localhost:4000/api/members",
-        {
-            "name": req.body.name,
-            "email": req.body.email,
-            "city": req.body.city,
-        });
-    await axios.post("http://localhost:4000/api/subscribers",
-        {
-            "memberId": newMember.data._id
-        });
+    try {
+        let newMember = await axios.post("http://localhost:4000/api/members",
+            {
+                "name": req.body.name,
+                "email": req.body.email,
+                "city": req.body.city,
+            });
+        await axios.post("http://localhost:4000/api/subscribers",
+            {
+                "memberId": newMember.data._id
+            });
 
-    res.redirect('/subscriptions');
+        res.redirect('/subscriptions');
+    } catch (error) {
+        console.log(error);
+        res.end();
+    }
 }
 
 module.exports.performAddMovieToMember = async function (req, res, next) {
-    let subscription = await axios.get('http://localhost:4000/api/subscribers/' + req.params.id);
-    subscription.data.movies.push({ movieId: req.body.movieId, date: req.body.watchMovieDate });
-    let movie = await axios.get('http://localhost:4000/api/movies/' + req.body.movieId);
-    await axios.put('http://localhost:4000/api/subscribers/' + req.params.id, subscription.data);
-    res.status(200).json({ movie: { movieName: movie.data.name, movieId: req.body.movieId, date: req.body.watchMovieDate } }
-    );
+    try {
+        let subscription = await axios.get('http://localhost:4000/api/subscribers/' + req.params.id);
+        subscription.data.movies.push({ movieId: req.body.movieId, date: req.body.watchMovieDate });
+        let movie = await axios.get('http://localhost:4000/api/movies/' + req.body.movieId);
+        await axios.put('http://localhost:4000/api/subscribers/' + req.params.id, subscription.data);
+        res.status(200).json({ movie: { movieName: movie.data.name, movieId: req.body.movieId, date: req.body.watchMovieDate } }
+        );
+    } catch (error) {
+        console.log(error);
+        res.end();
+    }
+
 }
 
 
 module.exports.displayEditMember = async function (req, res, next) {
-    let editedMember = await axios.get("http://localhost:4000/api/members/" + req.params.id);
-    res.render('layout', { page: 'subscriptions/editMember', member: editedMember.data });
+    try {
+        let editedMember = await axios.get("http://localhost:4000/api/members/" + req.params.id);
+        res.render('layout', { page: 'subscriptions/editMember', member: editedMember.data });
+    } catch (error) {
+        console.log(error);
+        res.end();
+    }
+
 }
 
 module.exports.performEditMember = async function (req, res, next) {
-    await axios.put("http://localhost:4000/api/members/" + req.params.id,
-        {
-            "name": req.body.name,
-            "email": req.body.email,
-            "city": req.body.city,
-        });
+    try {
+        await axios.put("http://localhost:4000/api/members/" + req.params.id,
+            {
+                "name": req.body.name,
+                "email": req.body.email,
+                "city": req.body.city,
+            });
 
-    res.redirect('/subscriptions');
+        res.redirect('/subscriptions');
+    } catch (error) {
+        console.log(error);
+        res.end();
+    }
+
 }
 
 module.exports.performDeleteMember = async function (req, res, next) {
-    await axios.delete("http://localhost:4000/api/members/" + req.params.id);
-    let subscribers = await axios.get("http://localhost:4000/api/subscribers");
-    let deleteSubscriber = subscribers.data.find(subscriber => subscriber.memberId === req.params.id);
-    console.log(deleteSubscriber)
-    await axios.delete("http://localhost:4000/api/subscribers/" + deleteSubscriber._id);
+    try {
+        await axios.delete("http://localhost:4000/api/members/" + req.params.id);
+        let subscribers = await axios.get("http://localhost:4000/api/subscribers");
+        let deleteSubscriber = subscribers.data.find(subscriber => subscriber.memberId === req.params.id);
+        console.log(deleteSubscriber)
+        await axios.delete("http://localhost:4000/api/subscribers/" + deleteSubscriber._id);
 
-    res.redirect('/subscriptions');
+        res.redirect('/subscriptions');
+    } catch (error) {
+        console.log(error);
+        res.end();
+    }
 }

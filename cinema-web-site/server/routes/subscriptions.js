@@ -4,31 +4,29 @@ let subscriptionsController = require('../controllers/subscriptionsController');
 
 // local authentication function
 
-function requireAuth(req, res, next) 
-{
+function requireAuth(req, res, next) {
     // check if the user is logged in
-    if(!req.isAuthenticated())
-    {
+    if (!req.isAuthenticated()) {
         return res.redirect('/login');
     }
     next();
 }
 
 
-router.get('/',requireAuth, subscriptionsController.displayMembers);
+router.get('/', requireAuth, subscriptionsController.displayMembers);
 
-router.get('/add',requireAuth, subscriptionsController.displayAddMember);
+router.get('/add', requireAuth, subscriptionsController.displayAddMember);
 
-router.get('/:id',requireAuth, subscriptionsController.displayMember);
-  
-router.post('/add',requireAuth, subscriptionsController.performAddMember);
-    
-router.put('/addMovie/:id',requireAuth, subscriptionsController.performAddMovieToMember);
+router.get('/:id', requireAuth, subscriptionsController.displayMember);
 
-router.get('/edit/:id',requireAuth, subscriptionsController.displayEditMember);
+router.post('/add', requireAuth, subscriptionsController.performAddMember);
 
-router.post('/edit/:id',requireAuth, subscriptionsController.performEditMember);
+router.put('/addMovie/:id', requireAuth, subscriptionsController.performAddMovieToMember);
 
-router.get('/delete/:id',requireAuth, subscriptionsController.performDeleteMember);
+router.get('/edit/:id', requireAuth, subscriptionsController.displayEditMember);
+
+router.post('/edit/:id', requireAuth, subscriptionsController.performEditMember);
+
+router.get('/delete/:id', requireAuth, subscriptionsController.performDeleteMember);
 
 module.exports = router;
