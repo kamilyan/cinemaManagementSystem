@@ -30,7 +30,7 @@ module.exports.performLogout = (req, res, next) => {
 }
 
 module.exports.processLoginPage = async (req, res, next) => {
-  passport.authenticate('local',async (err, user, info) => {
+  passport.authenticate('local', async (err, user, info) => {
     // server error
     if (err) {
       return next(err);
@@ -45,10 +45,11 @@ module.exports.processLoginPage = async (req, res, next) => {
       if (err) {
         return next(err);
       }
+
       //set timeout to the user session.
       let userDetails = await usersDAL.getUserById(user._id);
       let sessionTimeout = userDetails.sessionTimeOut;
-      if (sessionTimeout){
+      if (sessionTimeout) {
         req.session.cookie.originalMaxAge = parseFloat(sessionTimeout) * 1000 * 60;
       }
       // all is good - login

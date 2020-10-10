@@ -3,7 +3,9 @@
         <div class="createAccount">
             <h1 class="display-4">Create Account</h1>
             <% if(messages.length > 0)  { %>
-            <%= messages %>
+            <div class="alert alert-danger">
+                <%= messages %>
+            </div>
             <% } %>
 
             <form action="/createAccount" method="POST" autocomplete="off">

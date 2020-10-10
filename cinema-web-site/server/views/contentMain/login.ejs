@@ -3,7 +3,9 @@
         <div class="login">
             <h1 class="display-4">Login</h1>
             <% if(messages.length > 0)  { %>
-            <%= messages %>
+            <div class="alert alert-danger">
+                <%= messages %>
+            </div>
             <% } %>
 
             <form action="/login" method="POST">

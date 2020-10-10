@@ -37,7 +37,7 @@ module.exports.displayMovies = async function (req, res, next) {
             }
             res.render('layout', { page: "movies/allMovies", movies: movies.data, permissions: validPermission });
         }
-        else{
+        else {
             res.redirect('/');
         }
     } catch (error) {
@@ -65,7 +65,7 @@ module.exports.displayMovie = async function (req, res, next) {
             }
             res.render('layout', { page: "movies/allMovies", movies: [movie], permissions: validPermission });
         }
-        else{
+        else {
             res.redirect('/');
         }
     } catch (error) {
@@ -82,7 +82,7 @@ module.exports.displayAddMovie = async function (req, res, next) {
         if (validPermission.indexOf("createMovies") > -1) {
             res.render('layout', { page: "movies/addPage" });
         }
-        else{
+        else {
             res.redirect('/');
         }
     } catch (error) {
@@ -101,7 +101,7 @@ module.exports.performAddMovie = function (req, res, next) {
                 "image": req.body.imageURL,
                 "premiered": req.body.premiered
             })
-            .then(() => res.redirect('/movies/allMovies'));
+            .then(() => res.redirect('/movies'));
     } catch (error) {
         console.log(error);
         res.end();
@@ -155,7 +155,7 @@ module.exports.performDeleteMovie = async function (req, res, next) {
                     })
             }
         };
-        res.redirect('/movies/allMovies');
+        res.redirect('/movies');
     } catch (error) {
         console.log(error);
         res.end();

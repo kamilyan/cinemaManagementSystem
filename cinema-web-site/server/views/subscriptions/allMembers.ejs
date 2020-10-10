@@ -48,7 +48,7 @@
                     <% for (let j=0; j< members[i].watchedMovies.length; j++) { %>
                     <li>
                         <a
-                            href="/movies/allMovies/<%= members[i].watchedMovies[j].movieId %>"><%= members[i].watchedMovies[j].movieName %></a>
+                            href="/movies/<%= members[i].watchedMovies[j].movieId %>"><%= members[i].watchedMovies[j].movieName %></a>
                         , <%= members[i].watchedMovies[j].date %>
                     </li>
                     <% } %>
