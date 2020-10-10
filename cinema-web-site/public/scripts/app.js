@@ -1,6 +1,5 @@
 (function () {
 
-
     function activateNavbar() {
         let name = window.location.pathname;
 

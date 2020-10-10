@@ -37,6 +37,9 @@ module.exports.displayMovies = async function (req, res, next) {
             }
             res.render('layout', { page: "movies/allMovies", movies: movies.data, permissions: validPermission });
         }
+        else{
+            res.redirect('/');
+        }
     } catch (error) {
         console.log(error);
         res.end();
@@ -60,8 +63,10 @@ module.exports.displayMovie = async function (req, res, next) {
                 }
 
             }
-
             res.render('layout', { page: "movies/allMovies", movies: [movie], permissions: validPermission });
+        }
+        else{
+            res.redirect('/');
         }
     } catch (error) {
         console.log(error);
@@ -76,6 +81,9 @@ module.exports.displayAddMovie = async function (req, res, next) {
         let validPermission = await getMoviePermissions(req.user._id)
         if (validPermission.indexOf("createMovies") > -1) {
             res.render('layout', { page: "movies/addPage" });
+        }
+        else{
+            res.redirect('/');
         }
     } catch (error) {
         console.log(error);

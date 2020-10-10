@@ -7,8 +7,12 @@
             <h4> <%= members[i].name %></h4>
             Email : <%= members[i].email %><br>
             City : <%= members[i].city %><br><br>
+            <% if (permissions.indexOf("updateSubscriptions") > -1) { %>
             <a class="btn btn-primary" href="/subscriptions/edit/<%= members[i]._id %>">Edit</a>
+            <% } %>
+            <% if ( permissions.indexOf("deleteSubscriptions") > -1) { %>
             <a class="btn btn-danger" href="/subscriptions/delete/<%= members[i]._id %>">Delete</a>
+            <% } %>
             <div class="card">
                 <h4>Movies Watched</h4>
                 <button type="button" id="<%= i %>" class="btn btn-secondary showAddMovieSection">Subscribe to a new
