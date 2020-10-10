@@ -1,6 +1,7 @@
 let User = require('../models/odm/userDB/users');
 let mongoose = require('mongoose');
 let passport = require('passport');
+let usersDAL = require('../models/dals/usersDAL');
 
 module.exports.displayHomePage = function (req, res, next) {
   res.render('layout', { page: "contentMain/home" });
@@ -13,7 +14,7 @@ module.exports.displayManageUsersPage = function (req, res, next) {
 module.exports.displayLogin = function (req, res, next) {
   // check if user already logged in
   if (!req.user) {
-    res.render('layout', {
+    return res.render('layout', {
       page: "contentMain/login",
       messages: req.flash("loginMessage")
     });
@@ -28,8 +29,8 @@ module.exports.performLogout = (req, res, next) => {
   res.redirect("/login");
 }
 
-module.exports.processLoginPage = (req, res, next) => {
-  passport.authenticate('local', (err, user, info) => {
+module.exports.processLoginPage = async (req, res, next) => {
+  passport.authenticate('local',async (err, user, info) => {
     // server error
     if (err) {
       return next(err);
@@ -39,10 +40,16 @@ module.exports.processLoginPage = (req, res, next) => {
       return res.redirect('/login');
     }
 
-    req.logIn(user, (err) => {
+    req.logIn(user, async (err) => {
       // another type of server error
       if (err) {
         return next(err);
+      }
+      //set timeout to the user session.
+      let userDetails = await usersDAL.getUserById(user._id);
+      let sessionTimeout = userDetails.sessionTimeOut;
+      if (sessionTimeout){
+        req.session.cookie.originalMaxAge = parseFloat(sessionTimeout) * 1000 * 60;
       }
       // all is good - login
       return res.redirect('/');
@@ -79,15 +86,15 @@ module.exports.performCreateAccount = (req, res, next) => {
     user.setPassword(req.body.password, function (err) {
       if (err) {
         console.log(err);
-        res.end();
+        return res.end();
       }
       user.save(function (err) {
         if (err) {
           console.log(err);
-          res.end();
+          return res.end();
         }
         else {
-          res.redirect('/');
+          return res.redirect('/login');
         }
       });
     });

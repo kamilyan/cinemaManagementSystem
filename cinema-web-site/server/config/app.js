@@ -51,7 +51,7 @@ app.use(express.static(path.join(__dirname, '../../public')));
 app.use(session({
   secret: 'someSecret',
   saveUninitialized: false,
-  resave: false
+  resave: false,
 }));
 
 // intialize flash 

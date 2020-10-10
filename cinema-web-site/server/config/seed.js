@@ -10,14 +10,14 @@ seeder.connect(db.URI, { useNewUrlParser: true, useUnifiedTopology: true }, asyn
     seeder.loadModels([
         __dirname + "/../models/odm/userDB/users"
     ]);
-    /*
+    
     seeder.clearModels(['User'], async function () {
         let populateAdmin = getAdmin();
         seeder.populateModels([populateAdmin], async function () {
             await intializeAdminFile();
         });
     });
-    */
+    
 });
 
 function getAdmin() {
@@ -32,7 +32,7 @@ async function intializeAdminFile() {
             "firstName": "admin",
             "lastName": "admin",
             "createdData": new Date().toJSON().slice(0, 10).replace(/-/g, '/'),
-            "sessionTimeOut": 86400000
+            "sessionTimeOut": null
         }
 
         let adminPermissions = {

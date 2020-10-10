@@ -145,6 +145,7 @@ module.exports.displayAddUser = function (req, res, next) {
 
 module.exports.performAddUser = async function (req, res, next) {
     let newUserDB;
+
     try {
         newUserDB = userModel({ "username": req.body.username });
     } catch (error) {
@@ -159,7 +160,6 @@ module.exports.performAddUser = async function (req, res, next) {
         "createdData": new Date().toJSON().slice(0, 10).replace(/-/g, '/'),
         "sessionTimeOut": req.body.sessionTimeOut
     }
-
     let userPermission = [
         req.body.viewSubscriptions,
         req.body.createSubscriptions,
