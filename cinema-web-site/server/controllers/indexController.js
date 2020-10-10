@@ -3,15 +3,11 @@ let mongoose = require('mongoose');
 let passport = require('passport');
 
 module.exports.displayHomePage = function (req, res, next) {
-  res.render('layout', { page: "contentMain/main" });
+  res.render('layout', { page: "contentMain/home" });
 };
 
 module.exports.displayManageUsersPage = function (req, res, next) {
   res.redirect("/users");
-};
-
-module.exports.displayMoviesPage = function (req, res, next) {
-  res.redirect("/movies/allMovies");
 };
 
 module.exports.displayLogin = function (req, res, next) {

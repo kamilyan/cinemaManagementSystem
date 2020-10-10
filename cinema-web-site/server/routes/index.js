@@ -7,8 +7,6 @@ router.get('/', indexController.displayHomePage);
 
 router.get('/manageUsers', indexController.displayManageUsersPage);
 
-router.get('/moviesPage', indexController.displayMoviesPage);
-
 router.get('/login', indexController.displayLogin);
 
 router.post('/login', indexController.processLoginPage);

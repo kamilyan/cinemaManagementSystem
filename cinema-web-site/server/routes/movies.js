@@ -12,11 +12,11 @@ function requireAuth(req, res, next) {
     next();
 }
 
-router.get('/allMovies', requireAuth, moviesController.displayMovies);
-
-router.get('/allMovies/:id', requireAuth, moviesController.displayMovie);
+router.get('/', requireAuth, moviesController.displayMovies);
 
 router.get('/add', requireAuth, moviesController.displayAddMovie);
+
+router.get('/:id', requireAuth, moviesController.displayMovie);
 
 router.post('/add', requireAuth, moviesController.performAddMovie);
 
